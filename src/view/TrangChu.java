@@ -19,7 +19,6 @@ import view.UI_BanHang;
  * @author HP
  */
 public final class TrangChu extends javax.swing.JFrame{
-     private JPanel mainPanel;
      private CardLayout cardLayout;
     /**
      * Creates new form TrangChu
@@ -28,7 +27,7 @@ public final class TrangChu extends javax.swing.JFrame{
         Image scale = img.getScaledInstance(20, 20, Image.SCALE_SMOOTH);
         return scale;
     }
-    
+    public CardLayout card = new CardLayout();
     public TrangChu(){
         initComponents();
         Toolkit toolkit = Toolkit.getDefaultToolkit();
@@ -36,6 +35,8 @@ public final class TrangChu extends javax.swing.JFrame{
         int x = (screenSize.width - getWidth()) / 2;
         int y = (screenSize.height - getHeight()) / 2;
         setLocation(x, y);
+        jpMain.setLayout(card);
+        
         ImageIcon resizedIcon = new ImageIcon("icon\\home.png");
         ImageIcon resized = new ImageIcon("icon\\user.png");
         ImageIcon resizedLogout = new ImageIcon("icon\\logout.png");
@@ -79,6 +80,7 @@ public final class TrangChu extends javax.swing.JFrame{
         btnLogOut = new javax.swing.JButton();
         btnAvata = new javax.swing.JButton();
         btnHome = new javax.swing.JButton();
+        jpMain = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Quan Ly cua hang tien loi");
@@ -175,17 +177,32 @@ public final class TrangChu extends javax.swing.JFrame{
                     .addComponent(btnWareHouse, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
 
+        jpMain.setForeground(new java.awt.Color(153, 153, 153));
+
+        javax.swing.GroupLayout jpMainLayout = new javax.swing.GroupLayout(jpMain);
+        jpMain.setLayout(jpMainLayout);
+        jpMainLayout.setHorizontalGroup(
+            jpMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+        jpMainLayout.setVerticalGroup(
+            jpMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 645, Short.MAX_VALUE)
+        );
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jpMain, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 648, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jpMain, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -211,9 +228,8 @@ public final class TrangChu extends javax.swing.JFrame{
     }//GEN-LAST:event_btnLogOutActionPerformed
 
     private void btnSaleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaleActionPerformed
-        UI_BanHang sale = new UI_BanHang();
-        new TrangChu().add(sale);
-       
+        jpMain.add(new UI_BanHang(),"Sale");
+        card.show(jpMain ,"Sale");
     }//GEN-LAST:event_btnSaleActionPerformed
 
     private void btnHomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHomeActionPerformed
@@ -268,5 +284,6 @@ public final class TrangChu extends javax.swing.JFrame{
     private javax.swing.JButton jButton2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jpMain;
     // End of variables declaration//GEN-END:variables
 }
