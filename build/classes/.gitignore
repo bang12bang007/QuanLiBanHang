@@ -1,5 +1,4 @@
-/entity/
-/dao/
-/ConnectDB/
-/connectĐB/
 /connectDB/
+/dao/
+/entity/
+/view/

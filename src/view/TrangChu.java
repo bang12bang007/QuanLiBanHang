@@ -5,28 +5,61 @@
 package view;
 
 
+import java.awt.BorderLayout;
+import java.awt.CardLayout;
 import java.awt.Dimension;
+import java.awt.Image;
 import java.awt.Toolkit;
-
+import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import view.UI_BanHang;
 /**
  *
  * @author HP
  */
-public class TrangChu extends javax.swing.JFrame {
-
+public final class TrangChu extends javax.swing.JFrame{
+     private JPanel mainPanel;
+     private CardLayout cardLayout;
     /**
      * Creates new form TrangChu
      */
-    public TrangChu() {
+    public Image sacleImg(Image img){
+        Image scale = img.getScaledInstance(20, 20, Image.SCALE_SMOOTH);
+        return scale;
+    }
+    
+    public TrangChu(){
         initComponents();
         Toolkit toolkit = Toolkit.getDefaultToolkit();
         Dimension screenSize = toolkit.getScreenSize();
         int x = (screenSize.width - getWidth()) / 2;
         int y = (screenSize.height - getHeight()) / 2;
         setLocation(x, y);
+        ImageIcon resizedIcon = new ImageIcon("icon\\home.png");
+        ImageIcon resized = new ImageIcon("icon\\user.png");
+        ImageIcon resizedLogout = new ImageIcon("icon\\logout.png");
+        //iconHome
+        
+        Image imgHome = resizedIcon.getImage();
+        ImageIcon homeIcon = new ImageIcon(sacleImg(imgHome));
+        btnHome.setIcon(homeIcon);
+        // iconUser
+        
+        Image imgUser = resized.getImage();
+        ImageIcon iconUser = new ImageIcon(sacleImg(imgUser));
+        btnAvata.setIcon(iconUser);
+        //iconLogOut
+        
+        Image imgLogOut = resizedLogout.getImage();
+        ImageIcon iconLogOut = new ImageIcon(sacleImg(imgLogOut));
+        btnLogOut.setIcon(iconLogOut);
+        
+
+    }
+    private void set_UI(){
         
     }
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -38,12 +71,14 @@ public class TrangChu extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
-        jPanel8 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
+        btnSale = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
+        btnWareHouse = new javax.swing.JButton();
+        btnInventory = new javax.swing.JButton();
+        btnDashboard = new javax.swing.JButton();
+        btnLogOut = new javax.swing.JButton();
+        btnAvata = new javax.swing.JButton();
+        btnHome = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Quan Ly cua hang tien loi");
@@ -55,22 +90,13 @@ public class TrangChu extends javax.swing.JFrame {
 
         jPanel2.setBackground(new java.awt.Color(51, 51, 51));
 
-        jPanel8.setBackground(new java.awt.Color(255, 204, 204));
-        jPanel8.setPreferredSize(new java.awt.Dimension(113, 43));
-
-        javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
-        jPanel8.setLayout(jPanel8Layout);
-        jPanel8Layout.setHorizontalGroup(
-            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 144, Short.MAX_VALUE)
-        );
-        jPanel8Layout.setVerticalGroup(
-            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 43, Short.MAX_VALUE)
-        );
-
-        jButton1.setBackground(new java.awt.Color(255, 204, 255));
-        jButton1.setText("BÁN HÀNG");
+        btnSale.setBackground(new java.awt.Color(255, 204, 255));
+        btnSale.setText("BÁN HÀNG");
+        btnSale.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSaleActionPerformed(evt);
+            }
+        });
 
         jButton2.setBackground(new java.awt.Color(255, 204, 255));
         jButton2.setText("ĐƠN HÀNG");
@@ -82,53 +108,71 @@ public class TrangChu extends javax.swing.JFrame {
             }
         });
 
-        jButton3.setBackground(new java.awt.Color(255, 204, 255));
-        jButton3.setText("NHẬP KHO");
-        jButton3.setMaximumSize(new java.awt.Dimension(91, 23));
-        jButton3.setMinimumSize(new java.awt.Dimension(91, 23));
-        jButton3.setPreferredSize(new java.awt.Dimension(91, 23));
+        btnWareHouse.setBackground(new java.awt.Color(255, 204, 255));
+        btnWareHouse.setText("NHẬP KHO");
 
-        jButton4.setBackground(new java.awt.Color(255, 204, 255));
-        jButton4.setText("TỒN KHO");
-        jButton4.setMaximumSize(new java.awt.Dimension(91, 23));
-        jButton4.setMinimumSize(new java.awt.Dimension(91, 23));
-        jButton4.setPreferredSize(new java.awt.Dimension(91, 23));
+        btnInventory.setBackground(new java.awt.Color(255, 204, 255));
+        btnInventory.setText("TỒN KHO");
+        btnInventory.setMaximumSize(new java.awt.Dimension(91, 23));
+        btnInventory.setMinimumSize(new java.awt.Dimension(91, 23));
+        btnInventory.setPreferredSize(new java.awt.Dimension(91, 23));
 
-        jButton5.setBackground(new java.awt.Color(255, 204, 255));
-        jButton5.setText("THỐNG KÊ");
-        jButton5.setMaximumSize(new java.awt.Dimension(91, 23));
-        jButton5.setMinimumSize(new java.awt.Dimension(91, 23));
-        jButton5.setPreferredSize(new java.awt.Dimension(91, 23));
+        btnDashboard.setBackground(new java.awt.Color(255, 204, 255));
+        btnDashboard.setText("THỐNG KÊ");
+        btnDashboard.setMaximumSize(new java.awt.Dimension(91, 23));
+        btnDashboard.setMinimumSize(new java.awt.Dimension(91, 23));
+        btnDashboard.setPreferredSize(new java.awt.Dimension(91, 23));
+
+        btnLogOut.setBackground(new java.awt.Color(255, 204, 255));
+        btnLogOut.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLogOutActionPerformed(evt);
+            }
+        });
+
+        btnAvata.setBackground(new java.awt.Color(255, 204, 255));
+
+        btnHome.setBackground(new java.awt.Color(255, 204, 255));
+        btnHome.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnHomeActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(128, 128, 128)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnHome, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnSale, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnWareHouse, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnInventory, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 169, Short.MAX_VALUE)
-                .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(btnDashboard, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 121, Short.MAX_VALUE)
+                .addComponent(btnAvata, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnLogOut, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jButton5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnHome, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnAvata, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnLogOut, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnDashboard, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 43, Short.MAX_VALUE)
+                    .addComponent(btnInventory, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addComponent(btnSale, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnWareHouse, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -141,7 +185,7 @@ public class TrangChu extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 657, Short.MAX_VALUE))
+                .addGap(0, 648, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -161,6 +205,20 @@ public class TrangChu extends javax.swing.JFrame {
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void btnLogOutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogOutActionPerformed
+        System.exit(0);
+    }//GEN-LAST:event_btnLogOutActionPerformed
+
+    private void btnSaleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaleActionPerformed
+        UI_BanHang sale = new UI_BanHang();
+        new TrangChu().add(sale);
+       
+    }//GEN-LAST:event_btnSaleActionPerformed
+
+    private void btnHomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHomeActionPerformed
+        JOptionPane.showConfirmDialog(null, "You had been aready here!");
+    }//GEN-LAST:event_btnHomeActionPerformed
 
     /**
      * @param args the command line arguments
@@ -200,13 +258,15 @@ public class TrangChu extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton btnAvata;
+    private javax.swing.JButton btnDashboard;
+    private javax.swing.JButton btnHome;
+    private javax.swing.JButton btnInventory;
+    private javax.swing.JButton btnLogOut;
+    private javax.swing.JButton btnSale;
+    private javax.swing.JButton btnWareHouse;
     private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel8;
     // End of variables declaration//GEN-END:variables
 }

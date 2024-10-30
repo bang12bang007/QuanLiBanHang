@@ -110,4 +110,11 @@ public class Order_Dao {
 		}
 		return order_list;
 	}
+        public Double getTotalOrders(){
+            double total =0;
+            for(int i =0; i< order_list.size();i++){
+                total += order_list.get(i).getTotalAmount();
+            }
+            return total;
+        }
 }
