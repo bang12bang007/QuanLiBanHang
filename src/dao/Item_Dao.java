@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import connectDB.ConnectDB;
 import entity.Item;
+import java.util.List;
 
 public class Item_Dao {
 	private ArrayList<Item> item_list;
@@ -130,5 +131,24 @@ public class Item_Dao {
 		}
 		return item_list;
 	}
-
+        public List<Object[]> getItemFromSQL() throws SQLException {
+        Connection connectDB = ConnectDB.getInstance().getConnection();
+        String sql = "SELECT id, name, price, quantity, category FROM items";
+        PreparedStatement ps = connectDB.prepareStatement(sql);
+        ResultSet rs = ps.executeQuery();
+        List<Object[]> data = new ArrayList<>();
+        while (rs.next()) {
+            int id = rs.getInt("id");
+            String name = rs.getString("name");
+            double price = rs.getDouble("price");
+            int quantity = rs.getInt("quantity");
+            String category = rs.getString("category");
+            Object[] row = {id, name, price, quantity, category};
+            data.add(row);
+        }
+        rs.close();
+        ps.close();
+        connectDB.close();
+        return data;
+    }
 }

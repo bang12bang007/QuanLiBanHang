@@ -1,15 +1,15 @@
 package entity;
 
 import java.sql.Timestamp;
+import java.text.DecimalFormat;
 
 public class Item {
-	private int id;
+    private int id;
     private String name;
     private double price;
     private int quantity;
-    private String category;
-    private Timestamp createdAt;
-
+    private String category;// loại sản phẩm
+    private Timestamp createdAt;  // thời gian nhập kho
     // Constructors, Getters, and Setters
     public Item() {}
 
@@ -23,55 +23,58 @@ public class Item {
     }
 
 	public int getId() {
-		return id;
+            return id;
 	}
 
 	public void setId(int id) {
-		this.id = id;
+            this.id = id;
 	}
 
 	public String getName() {
-		return name;
+            return name;
 	}
 
 	public void setName(String name) {
-		this.name = name;
+            this.name = name;
 	}
 
 	public double getPrice() {
-		return price;
+            return price;
 	}
 
 	public void setPrice(double price) {
-		this.price = price;
+            this.price = price;
 	}
 
 	public int getQuantity() {
-		return quantity;
+            return quantity;
 	}
 
 	public void setQuantity(int quantity) {
-		this.quantity = quantity;
+            this.quantity = quantity;
 	}
 
 	public String getCategory() {
-		return category;
+            return category;
 	}
 
 	public void setCategory(String category) {
-		this.category = category;
+            this.category = category;
 	}
 
 	public Timestamp getCreatedAt() {
-		return createdAt;
+            return createdAt;
 	}
 
 	public void setCreatedAt(Timestamp createdAt) {
-		this.createdAt = createdAt;
+            this.createdAt = createdAt;
 	}
-
-	
-
+        
+	public static void formatMoney(String a){
+            DecimalFormat dc = new DecimalFormat("#,##VND");
+            dc.format(a);
+        }
+        
 
 
     // Getters and Setters

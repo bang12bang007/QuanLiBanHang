@@ -20,6 +20,8 @@ import view.UI_BanHang;
  */
 public final class TrangChu extends javax.swing.JFrame{
      private CardLayout cardLayout;
+     private UI_BanHang sale = new UI_BanHang();
+     private UI_NhapKho ware = new UI_NhapKho();
     /**
      * Creates new form TrangChu
      */
@@ -35,8 +37,11 @@ public final class TrangChu extends javax.swing.JFrame{
         int x = (screenSize.width - getWidth()) / 2;
         int y = (screenSize.height - getHeight()) / 2;
         setLocation(x, y);
+        // Chuyển đổi màn hình : Thêm panel tiếp theo xuống show vào sự kiện click
         jpMain.setLayout(card);
-        
+
+        jpMain.add(sale,"Sale");
+        jpMain.add(ware,"WareHouse");
         ImageIcon resizedIcon = new ImageIcon("icon\\home.png");
         ImageIcon resized = new ImageIcon("icon\\user.png");
         ImageIcon resizedLogout = new ImageIcon("icon\\logout.png");
@@ -112,6 +117,11 @@ public final class TrangChu extends javax.swing.JFrame{
 
         btnWareHouse.setBackground(new java.awt.Color(255, 204, 255));
         btnWareHouse.setText("NHẬP KHO");
+        btnWareHouse.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnWareHouseActionPerformed(evt);
+            }
+        });
 
         btnInventory.setBackground(new java.awt.Color(255, 204, 255));
         btnInventory.setText("TỒN KHO");
@@ -228,13 +238,16 @@ public final class TrangChu extends javax.swing.JFrame{
     }//GEN-LAST:event_btnLogOutActionPerformed
 
     private void btnSaleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaleActionPerformed
-        jpMain.add(new UI_BanHang(),"Sale");
         card.show(jpMain ,"Sale");
     }//GEN-LAST:event_btnSaleActionPerformed
 
     private void btnHomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHomeActionPerformed
         JOptionPane.showConfirmDialog(null, "You had been aready here!");
     }//GEN-LAST:event_btnHomeActionPerformed
+
+    private void btnWareHouseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnWareHouseActionPerformed
+        card.show(jpMain,"WareHouse");
+    }//GEN-LAST:event_btnWareHouseActionPerformed
 
     /**
      * @param args the command line arguments
