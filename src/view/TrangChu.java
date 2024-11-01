@@ -22,6 +22,7 @@ public final class TrangChu extends javax.swing.JFrame{
      private CardLayout cardLayout;
      private UI_BanHang sale = new UI_BanHang();
      private UI_NhapKho ware = new UI_NhapKho();
+     private UI_TonKho inventory = new UI_TonKho();
     /**
      * Creates new form TrangChu
      */
@@ -42,6 +43,7 @@ public final class TrangChu extends javax.swing.JFrame{
 
         jpMain.add(sale,"Sale");
         jpMain.add(ware,"WareHouse");
+        jpMain.add(inventory,"Inventory");
         ImageIcon resizedIcon = new ImageIcon("icon\\home.png");
         ImageIcon resized = new ImageIcon("icon\\user.png");
         ImageIcon resizedLogout = new ImageIcon("icon\\logout.png");
@@ -128,6 +130,11 @@ public final class TrangChu extends javax.swing.JFrame{
         btnInventory.setMaximumSize(new java.awt.Dimension(91, 23));
         btnInventory.setMinimumSize(new java.awt.Dimension(91, 23));
         btnInventory.setPreferredSize(new java.awt.Dimension(91, 23));
+        btnInventory.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnInventoryActionPerformed(evt);
+            }
+        });
 
         btnDashboard.setBackground(new java.awt.Color(255, 204, 255));
         btnDashboard.setText("THỐNG KÊ");
@@ -248,6 +255,10 @@ public final class TrangChu extends javax.swing.JFrame{
     private void btnWareHouseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnWareHouseActionPerformed
         card.show(jpMain,"WareHouse");
     }//GEN-LAST:event_btnWareHouseActionPerformed
+
+    private void btnInventoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInventoryActionPerformed
+        card.show(jpMain,"Inventory");
+    }//GEN-LAST:event_btnInventoryActionPerformed
 
     /**
      * @param args the command line arguments
