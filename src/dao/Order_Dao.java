@@ -30,8 +30,8 @@ public class Order_Dao {
 		if (order_list.contains(order)) {
 			return false;
 		} else {
-			ps.setInt(1, order.getId());
-			ps.setInt(2, order.getCustomer().getId());
+			ps.setString(1, order.getId());
+			ps.setString(2, order.getCustomer().getId());
 			ps.setDate(3, order.getOrderDate());
 			ps.setDouble(4, order.getTotalAmount());
 			ps.setString(5, order.getStatus());
@@ -54,12 +54,12 @@ public class Order_Dao {
 		Connection connectDB = ConnectDB.getInstance().getConnection();
 		String sql = "UPDATE Order SET customer_id = ?, order_date = ?, total_amount = ?, status = ?, created_at = ? WHERE id = ?";
 		PreparedStatement ps = connectDB.prepareStatement(sql);
-		ps.setInt(1, order.getCustomer().getId());
+		ps.setString(1, order.getCustomer().getId());
 		ps.setDate(2, order.getOrderDate());
 		ps.setDouble(3, order.getTotalAmount());
 		ps.setString(4, order.getStatus());
 		ps.setTimestamp(5, order.getCreatedAt());
-		ps.setInt(6, order.getId());
+		ps.setString(6, order.getId());
 		ps.executeUpdate();
 		return true;
 	}
@@ -72,7 +72,7 @@ public class Order_Dao {
 		ResultSet rs = ps.executeQuery();
 		while (rs.next()) {
 			Order order = new Order();
-			order.setId(rs.getInt("id"));
+			order.setId(rs.getString("id"));
 
 			//
 			Customer_Dao customer = new Customer_Dao();
@@ -96,7 +96,7 @@ public class Order_Dao {
 		ResultSet rs = ps.executeQuery();
 		while (rs.next()) {
 			Order order = new Order();
-			order.setId(rs.getInt("id"));
+			order.setId(rs.getString("id"));
 
 			//
 			Customer_Dao customer = new Customer_Dao();

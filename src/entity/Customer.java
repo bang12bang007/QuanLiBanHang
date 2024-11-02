@@ -3,7 +3,7 @@ package entity;
 import java.sql.Timestamp;
 
 public class Customer {
-    private int id;
+    private String id;
     private String name;
     private String email;
     private String phone;
@@ -13,7 +13,7 @@ public class Customer {
     // Constructors, Getters, and Setters
     public Customer() {}
 
-    public Customer(int id, String name, String email, String phone, String address, Timestamp createdAt) {
+    public Customer(String id, String name, String email, String phone, String address, Timestamp createdAt) {
         this.id = id;
         this.name = name;
         this.email = email;
@@ -22,11 +22,11 @@ public class Customer {
         this.createdAt = createdAt;
     }
 
-	public int getId() {
+	public String getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 

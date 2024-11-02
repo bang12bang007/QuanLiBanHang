@@ -21,7 +21,7 @@ public class Customer_Dao {
 			Connection connectDB = ConnectDB.getInstance().getConnection();
 			String sql = "INSERT INTO Customer VALUES(?,?,?,?,?,?)";
 			PreparedStatement ps = connectDB.prepareStatement(sql);
-			ps.setInt(1, customer.getId());
+			ps.setString(1, customer.getId());
 			ps.setString(2, customer.getName());
 			ps.setString(3, customer.getEmail());
 			ps.setString(4, customer.getPhone());
@@ -71,7 +71,7 @@ public class Customer_Dao {
 			ps.setString(3, customer.getPhone());
 			ps.setString(4, customer.getAddress());
 			ps.setTimestamp(5, customer.getCreatedAt());
-			ps.setInt(6, customer.getId());
+			ps.setString(6, customer.getId());
 			ps.executeUpdate();
 			return true;
 
@@ -89,7 +89,7 @@ public class Customer_Dao {
             PreparedStatement ps = connectDB.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
-				int id1 = rs.getInt("id");
+				 String id1 = rs.getString("id");
 				String name = rs.getString("name");
 				String email = rs.getString("email");
 				String phone = rs.getString("phone");
@@ -112,7 +112,7 @@ public ArrayList<Customer> getAllCustomer() throws SQLException {
     PreparedStatement ps = connectDB.prepareStatement(sql);
     ResultSet rs = ps.executeQuery();
     while (rs.next()) {
-        int id = rs.getInt("id");
+        String id = rs.getString("id");
         String name = rs.getString("name");
         String email = rs.getString("email");
         String phone = rs.getString("phone");

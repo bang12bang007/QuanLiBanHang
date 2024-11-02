@@ -3,7 +3,7 @@ package entity;
 import java.sql.Timestamp;
 
 public class OrderDetail {
-    private int id;
+    private String id;
     private Order order; // Foreign key relationship
     private Item item; // Foreign key relationship
     private int quantity;
@@ -14,7 +14,7 @@ public class OrderDetail {
     // Constructors, Getters, and Setters
     public OrderDetail() {}
 
-    public OrderDetail(int id, Order order, Item item, int quantity, double price, Timestamp createdAt) {
+    public OrderDetail(String id, Order order, Item item, int quantity, double price, Timestamp createdAt) {
         this.id = id;
         this.order = order;
         this.item = item;
@@ -24,11 +24,11 @@ public class OrderDetail {
         this.createdAt = createdAt;
     }
 
-	public int getId() {
+	public String getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 
