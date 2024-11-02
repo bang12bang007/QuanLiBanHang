@@ -117,7 +117,7 @@ public class Item_Dao {
 	
 	public ArrayList<Item> getAllItem() throws SQLException {
 		Connection connectDB = ConnectDB.getInstance().getConnection();
-		String sql = "SELECT * FROM Item";
+		String sql = "SELECT * FROM Items";
 		PreparedStatement ps = connectDB.prepareStatement(sql);
 		ResultSet rs = ps.executeQuery();
 		while (rs.next()) {
@@ -128,6 +128,7 @@ public class Item_Dao {
 			item.setQuantity(rs.getInt("quantity"));
 			item.setCategory(rs.getString("category"));
 			item.setCreatedAt(rs.getTimestamp("createdAt"));
+			item.setExpiredDate(rs.getDate("expiredDate"));
 			item_list.add(item);
 		}
 		return item_list;

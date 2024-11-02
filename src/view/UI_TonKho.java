@@ -4,6 +4,10 @@
  */
 package view;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.beans.Statement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -11,6 +15,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
@@ -22,7 +27,7 @@ import entity.Item;
  *
  * @author HP
  */
-public class UI_TonKho extends javax.swing.JPanel {
+public class UI_TonKho extends javax.swing.JPanel implements ActionListener, MouseListener {
 	
 	private ConnectDB connectDB;
 	private Item_Dao itemDao;
@@ -172,6 +177,15 @@ public class UI_TonKho extends javax.swing.JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
+        
+        
+        search_txt.addActionListener(this);
+        comboxSort.addActionListener(this);
+        comboxCategory.addActionListener(this);
+        btnSearch.addActionListener(this);
+        btnSort.addActionListener(this);
+        jTable1.addMouseListener(this);
+        
     }// </editor-fold>//GEN-END:initComponents
 
     private void comboxSortActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboxSortActionPerformed
@@ -210,7 +224,70 @@ public class UI_TonKho extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
+    
     DefaultTableModel model = new DefaultTableModel();
     private javax.swing.JTextField search_txt;
     // End of variables declaration//GEN-END:variables
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		
+		
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		
+		Object o = e.getSource();
+		if (o.equals(btnSearch)) {
+			JOptionPane.showMessageDialog(this, "Tìm kiếm");
+		}
+		
+		if (o.equals(btnSort)) {
+			if (comboxSort.getSelectedItem().equals("Số lượng tồn kho tăng dần")) {
+				if (comboxCategory.getSelectedItem().equals("Tất cả")) {
+					 itemDao = new Item_Dao();
+					List<Item> list = null;
+					try {
+						list = itemDao.getAllItem();
+						for(Item s : list) {
+							model.addRow(new Object[] {s.getId(), s.getName(), s.getQuantity(), s.getExpiredDate()});
+						}
+					} catch (SQLException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					
+					
+				
+			}}
+		}
+		// TODO Auto-generated method stub
+		
+	}
 }
