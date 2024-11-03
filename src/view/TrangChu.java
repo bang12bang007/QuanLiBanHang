@@ -10,6 +10,11 @@ import java.awt.CardLayout;
 import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -18,7 +23,7 @@ import view.UI_BanHang;
  *
  * @author HP
  */
-public final class TrangChu extends javax.swing.JFrame{
+public final class TrangChu extends javax.swing.JFrame implements ActionListener, MouseListener{
      private CardLayout cardLayout;
      private UI_BanHang sale = new UI_BanHang();
      private UI_NhapKho ware = new UI_NhapKho();
@@ -310,4 +315,36 @@ public final class TrangChu extends javax.swing.JFrame{
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jpMain;
     // End of variables declaration//GEN-END:variables
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		Object o = e.getSource();
+		
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void mousePressed(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
 }

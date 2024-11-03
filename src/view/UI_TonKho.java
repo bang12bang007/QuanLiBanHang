@@ -4,16 +4,43 @@
  */
 package view;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.beans.Statement;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.List;
+
+import javax.swing.JOptionPane;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+
+import connectDB.ConnectDB;
+import dao.Item_Dao;
+import entity.Item;
+
 /**
  *
  * @author HP
  */
-public class UI_TonKho extends javax.swing.JPanel {
-
+public class UI_TonKho extends javax.swing.JPanel implements ActionListener, MouseListener {
+	
+	private ConnectDB connectDB;
+	private Item_Dao itemDao;
+	private Item item;
+    ;
     /**
      * Creates new form UI_TonKho
      */
     public UI_TonKho() {
+    	
+    	connectDB = new ConnectDB();
+    	itemDao = new Item_Dao();
+    	item = new Item();
         initComponents();
     }
 
@@ -25,6 +52,10 @@ public class UI_TonKho extends javax.swing.JPanel {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+    	connectDB = new ConnectDB();
+    	// doc du lieu tu database them vao I
+    	
+//    	showTable();
 
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
@@ -105,18 +136,18 @@ public class UI_TonKho extends javax.swing.JPanel {
                 .addGap(0, 17, Short.MAX_VALUE))
         );
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
+        jTable1.setModel(model);
+        Object[] columns = {"ID", "Tên sản phẩm", "Số lượng tồn kho", "Hạn sử dụng"};		
+        model.setColumnIdentifiers(columns);
+        
+       
+      
+        
+        
         jScrollPane1.setViewportView(jTable1);
+        
+    
+        
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -146,6 +177,15 @@ public class UI_TonKho extends javax.swing.JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
+        
+        
+        search_txt.addActionListener(this);
+        comboxSort.addActionListener(this);
+        comboxCategory.addActionListener(this);
+        btnSearch.addActionListener(this);
+        btnSort.addActionListener(this);
+        jTable1.addMouseListener(this);
+        
     }// </editor-fold>//GEN-END:initComponents
 
     private void comboxSortActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboxSortActionPerformed
@@ -159,8 +199,21 @@ public class UI_TonKho extends javax.swing.JPanel {
     private void btnSortActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSortActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnSortActionPerformed
-
-
+//public void showTable() throws SQLException
+//{
+//String sql = "SELECT * FROM Item";
+//try {
+//	Statement stmt = (Statement) Connection
+//	ResultSet rs = stmt.executeQuery(sql);
+//} catch (SQLException e) {
+//	// TODO Auto-generated catch block
+//	e.printStackTrace();
+//}
+//
+//
+//
+//
+//}
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnSearch;
     private javax.swing.JButton btnSort;
@@ -171,6 +224,70 @@ public class UI_TonKho extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
+    
+    DefaultTableModel model = new DefaultTableModel();
     private javax.swing.JTextField search_txt;
     // End of variables declaration//GEN-END:variables
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		
+		
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		
+		Object o = e.getSource();
+		if (o.equals(btnSearch)) {
+			JOptionPane.showMessageDialog(this, "Tìm kiếm");
+		}
+		
+		if (o.equals(btnSort)) {
+			if (comboxSort.getSelectedItem().equals("Số lượng tồn kho tăng dần")) {
+				if (comboxCategory.getSelectedItem().equals("Tất cả")) {
+					 itemDao = new Item_Dao();
+					List<Item> list = null;
+					try {
+						list = itemDao.getAllItem();
+						for(Item s : list) {
+							model.addRow(new Object[] {s.getId(), s.getName(), s.getQuantity(), s.getExpiredDate()});
+						}
+					} catch (SQLException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					
+					
+				
+			}}
+		}
+		// TODO Auto-generated method stub
+		
+	}
 }

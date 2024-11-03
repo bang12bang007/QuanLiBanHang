@@ -23,10 +23,10 @@ public class OrderDetail_Dao {
 			if (orderDetail_list.contains(orderDetail)) {
 				return false;
 			} else {
-				ps.setInt(1, orderDetail.getId());
-				ps.setInt(2, orderDetail.getOrder().getId());
+				ps.setString(1, orderDetail.getId());
+				ps.setString(2, orderDetail.getOrder().getId());
 
-				ps.setInt(3, orderDetail.getItem().getId());
+				ps.setString(3, orderDetail.getItem().getId());
 				ps.setInt(4, orderDetail.getQuantity());
 				ps.setDouble(5, orderDetail.getPrice());
 				ps.executeUpdate();
@@ -47,7 +47,7 @@ public class OrderDetail_Dao {
 			ResultSet rs = ps.executeQuery();
 			while (ps.getResultSet().next()) {
 				OrderDetail orderDetail = new OrderDetail();
-				orderDetail.setId(ps.getResultSet().getInt("id"));
+				orderDetail.setId(ps.getResultSet().getString("id"));
 				Order_Dao orderDao = new Order_Dao();
 				orderDetail.setOrder(orderDao.getOrderById(ps.getResultSet().getInt("order_id")));
 				Item_Dao itemDao = new Item_Dao();
@@ -74,7 +74,7 @@ public class OrderDetail_Dao {
 			ResultSet rs = ps.executeQuery();
 			if (rs.next()) {
 				OrderDetail orderDetail = new OrderDetail();
-				orderDetail.setId(rs.getInt("id"));
+				orderDetail.setId(rs.getString("id"));
 				Order_Dao orderDao = new Order_Dao();
 				orderDetail.setOrder(orderDao.getOrderById(rs.getInt("order_id")));
 				Item_Dao itemDao = new Item_Dao();
@@ -94,11 +94,11 @@ public class OrderDetail_Dao {
 			Connection connectDB = ConnectDB.getInstance().getConnection();
 			String sql = "UPDATE OrderDetail SET order_id = ?, item_id = ?, quantity = ?, price = ? WHERE id = ?";
 			PreparedStatement ps = connectDB.prepareStatement(sql);
-			ps.setInt(1, orderDetail.getOrder().getId());
-			ps.setInt(2, orderDetail.getItem().getId());
+			ps.setString(1, orderDetail.getOrder().getId());
+			ps.setString(2, orderDetail.getItem().getId());
 			ps.setInt(3, orderDetail.getQuantity());
 			ps.setDouble(4, orderDetail.getPrice());
-			ps.setInt(5, orderDetail.getId());
+			ps.setString(5, orderDetail.getId());
 			ps.executeUpdate();
 			return true;
 		} catch (Exception e) {

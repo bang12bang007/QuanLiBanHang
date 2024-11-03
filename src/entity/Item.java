@@ -1,37 +1,53 @@
 package entity;
 
+import java.sql.Date;
+import java.sql.Time;
 import java.sql.Timestamp;
 import java.text.DecimalFormat;
+import java.time.LocalDate;
 
 public class Item {
-    private int id;
+    private String id;
     private String name;
     private double price;
     private int quantity;
     private String category;// loại sản phẩm
     private Timestamp createdAt;  // thời gian nhập kho
-    // Constructors, Getters, and Setters
+    private Date expiredDate; // hạn sử dụng
+  
     public Item() {}
 
-    public Item(int id, String name, double price, int quantity, String category, Timestamp createdAt) {
-        this.id = id;
-        this.name = name;
-        this.price = price;
-        this.quantity = quantity;
-        this.category = category;
-        this.createdAt = createdAt;
-    }
+    
 
-	public int getId() {
+	public Item(String id, String name, double price, int quantity, String category, Timestamp createdAt,
+			Date expiredDate) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.price = price;
+		this.quantity = quantity;
+		this.category = category;
+		this.createdAt = createdAt;
+		this.expiredDate = expiredDate;
+	}
+
+
+
+	public String getId() {
             return id;
 	}
 
-	public void setId(int id) {
+	public void setId(String id) {
             this.id = id;
 	}
 
 	public String getName() {
             return name;
+	}
+
+
+	public void setExpiredDate(Date expiredDate) {
+		this.expiredDate = expiredDate;
 	}
 
 	public void setName(String name) {
@@ -74,6 +90,15 @@ public class Item {
             DecimalFormat dc = new DecimalFormat("#,##VND");
             dc.format(a);
         }
+
+
+
+	public Date getExpiredDate() {
+		return expiredDate;
+	}
+
+
+
         
 
 

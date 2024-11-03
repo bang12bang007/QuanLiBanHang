@@ -5,7 +5,7 @@ import java.sql.Timestamp;
 import java.util.List;
 
 public class Order {
-    private int id;
+    private String id;
     private Customer customer; // Foreign key relationship
     private Date orderDate;
     private double totalAmount;
@@ -16,7 +16,7 @@ public class Order {
     // Constructors, Getters, and Setters
     public Order() {}
 
-    public Order(int id, Customer customer, Date orderDate, double totalAmount, String status, Timestamp createdAt) {
+    public Order(String id, Customer customer, Date orderDate, double totalAmount, String status, Timestamp createdAt) {
         this.id = id;
         this.customer = customer;
         this.orderDate = orderDate;
@@ -25,11 +25,11 @@ public class Order {
         this.createdAt = createdAt;
     }
 
-	public int getId() {
+	public String getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 
