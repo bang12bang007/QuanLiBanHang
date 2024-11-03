@@ -17,7 +17,14 @@ public class Order_Dao {
 	public Order_Dao() {
 		order_list = new ArrayList<Order>();
 	}
-
+                public boolean addOrderList(Order od){
+                    if(order_list.contains(od)){
+                        return false;
+                    }else{
+                        order_list.add(od);
+                        return false;
+                    }
+                }
 	public ArrayList<Order> getOrderList() {
 		return order_list;
 	}

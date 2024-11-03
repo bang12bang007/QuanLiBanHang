@@ -11,7 +11,7 @@ public class Order {
     private double totalAmount;
     private String status;
     private Timestamp createdAt;
-    private List<OrderDetail> orderDetails; // One-to-many relationship with OrderDetail
+    private List<OrderDetail> orderDetails;
 
     // Constructors, Getters, and Setters
     public Order() {}
