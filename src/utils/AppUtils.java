@@ -23,7 +23,7 @@ public class AppUtils {
      }
     //format date
     
-    //format textfield chỉnh theo cái search_txt bên UI bán hàng của tao á 
+    //format textfield chỉnh theo cái search_txt bên UI bán hàng của tao á dòng 70 bên UI_BanHang
     public static void formatTextField(String title_textField, JTextField a){
             String placeholderText = title_textField;
             a.setText(placeholderText);
@@ -32,15 +32,15 @@ public class AppUtils {
             @Override
             public void focusGained(FocusEvent e) {
                 if (a.getText().equals(placeholderText)) {
-                    a.setText(""); // Xóa placeholder khi người dùng nhập
-                    a.setForeground(Color.BLACK); // Đặt lại màu chữ bình thường
+                    a.setText("");
+                    a.setForeground(Color.BLACK);
                   }
             }
             @Override
             public void focusLost(FocusEvent e) {
                 if (a.getText().isEmpty()) {
-                    a.setText(placeholderText); // Đặt lại placeholder nếu trống
-                    a.setForeground(Color.GRAY); // Đặt lại màu placeholder
+                    a.setText(placeholderText); 
+                    a.setForeground(Color.GRAY); 
                 }
             }
         }
