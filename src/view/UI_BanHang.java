@@ -32,6 +32,7 @@ public class UI_BanHang extends javax.swing.JPanel {
     private static int invoiceCount = 1;
     private Order od = new Order();
     private Order_Dao od_dao = new Order_Dao();
+    private Item_Dao dao = new Item_Dao();
     /**
      * Creates new form UI_BanHang
      */
@@ -392,7 +393,7 @@ public class UI_BanHang extends javax.swing.JPanel {
     }//GEN-LAST:event_btnBack1ActionPerformed
 
     private void updateCartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateCartActionPerformed
-         Item_Dao dao = new Item_Dao();
+
     int row = cartTable.getSelectedRow();
     
     if(row != -1){
@@ -424,7 +425,17 @@ public class UI_BanHang extends javax.swing.JPanel {
     private void delCartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_delCartActionPerformed
         int row = cartTable.getSelectedRow();
         if(row != -1){
-            cartDF.removeRow(row);
+            String orderID = cartTable.getValueAt(row, 0).toString();
+            int productRow = findRow(orderID);
+            int cartQuantity = Integer.parseInt(cartTable.getValueAt(row, 2).toString());
+            int productQuantity = Integer.parseInt(productTable.getValueAt(productRow, 3).toString());
+            int newQuantity = productQuantity + cartQuantity ;
+            if(dao.updateQuantity(orderID, newQuantity)){
+                    cartDF.removeRow(row);
+                    productTable.setValueAt(newQuantity, productRow, 3);
+            }else{
+                JOptionPane.showConfirmDialog(this,"Xóa không thành công ");
+            }
             updateTotal();
         }else{
              JOptionPane.showMessageDialog(this, "Vui lòng chọn sản phẩm cần xóa.");
@@ -436,7 +447,7 @@ public class UI_BanHang extends javax.swing.JPanel {
     }//GEN-LAST:event_jTextField1ActionPerformed
 
     private void addCartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addCartActionPerformed
-        Item_Dao dao = new Item_Dao();
+
         int row = productTable.getSelectedRow();
         
          if(row != -1){

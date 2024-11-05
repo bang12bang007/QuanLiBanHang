@@ -8,6 +8,8 @@ import java.awt.Color;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.text.DecimalFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import javax.swing.JTextField;
 
 /**
@@ -22,7 +24,10 @@ public class AppUtils {
           return formatter;
      }
     //format date
-    
+    public static String formatDate(LocalDate time) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        return time.format(formatter);
+    }
     //format textfield chỉnh theo cái search_txt bên UI bán hàng của tao á dòng 70 bên UI_BanHang
     public static void formatTextField(String title_textField, JTextField a){
             String placeholderText = title_textField;
