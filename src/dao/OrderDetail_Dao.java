@@ -39,30 +39,28 @@ public class OrderDetail_Dao {
 		return false;
 	}
 
-	public ArrayList<OrderDetail> getALLOrderDetial() {
+	// get all order details
+	public ArrayList<OrderDetail> getOrderDetailList() {
 		Connection connectDB = ConnectDB.getInstance().getConnection();
 		try {
 			String sql = "SELECT * FROM OrderDetail";
 			PreparedStatement ps = connectDB.prepareStatement(sql);
 			ResultSet rs = ps.executeQuery();
-			while (ps.getResultSet().next()) {
+			while (rs.next()) {
 				OrderDetail orderDetail = new OrderDetail();
-				orderDetail.setId(ps.getResultSet().getString("id"));
+				orderDetail.setId(rs.getString("id"));
 				Order_Dao orderDao = new Order_Dao();
-				orderDetail.setOrder(orderDao.getOrderById(ps.getResultSet().getInt("order_id")));
+				orderDetail.setOrder(orderDao.getOrderById(rs.getString("order_id")));
 				Item_Dao itemDao = new Item_Dao();
-				orderDetail.setItem(itemDao.getItemByID(ps.getResultSet().getInt("item_id")));
-
-				orderDetail.setQuantity(ps.getResultSet().getInt("quantity"));
-				orderDetail.setPrice(ps.getResultSet().getDouble("price"));
+				orderDetail.setItem(itemDao.getItemByID(rs.getString("item_id")));
+				orderDetail.setQuantity(rs.getInt("quantity"));
+				orderDetail.setPrice(rs.getDouble("price"));
 				orderDetail_list.add(orderDetail);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-
 		}
 		return orderDetail_list;
-
 	}
 	
 	public OrderDetail getOrderDetailById(int id) {
@@ -76,9 +74,9 @@ public class OrderDetail_Dao {
 				OrderDetail orderDetail = new OrderDetail();
 				orderDetail.setId(rs.getString("id"));
 				Order_Dao orderDao = new Order_Dao();
-				orderDetail.setOrder(orderDao.getOrderById(rs.getInt("order_id")));
+				orderDetail.setOrder(orderDao.getOrderById(rs.getString("order_id")));
 				Item_Dao itemDao = new Item_Dao();
-				orderDetail.setItem(itemDao.getItemByID(rs.getInt("item_id")));
+				orderDetail.setItem(itemDao.getItemByID(rs.getString("item_id")));
 				orderDetail.setQuantity(rs.getInt("quantity"));
 				orderDetail.setPrice(rs.getDouble("price"));
 				return orderDetail;

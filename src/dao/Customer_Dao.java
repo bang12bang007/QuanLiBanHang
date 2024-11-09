@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 
 import connectDB.ConnectDB;
@@ -11,12 +12,13 @@ import entity.Customer;
 
 public class Customer_Dao {
 	private ArrayList<Customer> customer_list;
+
 	public Customer_Dao() {
 		customer_list = new ArrayList<Customer>();
-    }
-	
+	}
+
 	public boolean addCustomer(Customer customer) {
-		
+
 		try {
 			Connection connectDB = ConnectDB.getInstance().getConnection();
 			String sql = "INSERT INTO Customer VALUES(?,?,?,?,?,?)";
@@ -27,23 +29,22 @@ public class Customer_Dao {
 			ps.setString(4, customer.getPhone());
 			ps.setString(5, customer.getAddress());
 			ps.setTimestamp(6, customer.getCreatedAt());
+			
 			ps.executeUpdate();
 			return true;
-			
+
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return false;
-		
-		
+
 	}
-	
-	
+
 	public ArrayList<Customer> getCustomerList() {
 		return customer_list;
-    }
-	
+	}
+
 	public boolean deleteCustomer(int id) {
 		try {
 			Connection connectDB = ConnectDB.getInstance().getConnection();
@@ -59,12 +60,12 @@ public class Customer_Dao {
 		}
 		return false;
 	}
-	
-	
+
 	public boolean updateCustomer(Customer customer) {
 		try {
 			Connection connectDB = ConnectDB.getInstance().getConnection();
-			String sql = "UPDATE Customer SET name = ?, email = ?, phone = ?, address = ?, createdAt = ? WHERE id = ?";
+			String sql = "UPDATE Customer SET name = ?, email = ?, phone = ?, address = ?, created_at = ? WHERE id = ?";
+		
 			PreparedStatement ps = connectDB.prepareStatement(sql);
 			ps.setString(1, customer.getName());
 			ps.setString(2, customer.getEmail());
@@ -81,51 +82,50 @@ public class Customer_Dao {
 		}
 		return false;
 	}
-	
-	public Customer getCustomer(int id) {
+
+	public Customer getCustomer(String id) {
 		try {
-            Connection connectDB = ConnectDB.getInstance().getConnection();
-            String sql = "SELECT * FROM Customer WHERE id = ?";
-            PreparedStatement ps = connectDB.prepareStatement(sql);
-            ResultSet rs = ps.executeQuery();
+			Connection connectDB = ConnectDB.getInstance().getConnection();
+			String sql = "SELECT * FROM Customer WHERE id = ?";
+			PreparedStatement ps = connectDB.prepareStatement(sql);
+			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
-				 String id1 = rs.getString("id");
+				String id1 = rs.getString("id");
 				String name = rs.getString("name");
 				String email = rs.getString("email");
 				String phone = rs.getString("phone");
 				String address = rs.getString("address");
-				java.sql.Timestamp createdAt = rs.getTimestamp("createdAt");
+				  
+				Timestamp createdAt = rs.getTimestamp("created_at");
 				Customer customer = new Customer(id1, name, email, phone, address, createdAt);
 				return customer;
 			}
-        } catch (SQLException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-		
-	            return null;}
-  
-public ArrayList<Customer> getAllCustomer() throws SQLException {
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
-    Connection connectDB = ConnectDB.getInstance().getConnection();
-    String sql = "SELECT * FROM Customer";
-    PreparedStatement ps = connectDB.prepareStatement(sql);
-    ResultSet rs = ps.executeQuery();
-    while (rs.next()) {
-        String id = rs.getString("id");
-        String name = rs.getString("name");
-        String email = rs.getString("email");
-        String phone = rs.getString("phone");
-        String address = rs.getString("address");
-        java.sql.Timestamp createdAt = rs.getTimestamp("createdAt");
-        Customer customer = new Customer(id, name, email, phone, address, createdAt);
-        customer_list.add(customer);
-    }
-    return customer_list;
+		return null;
+	}
 
-	
-	
-}
+	public ArrayList<Customer> getAllCustomer() throws SQLException {
 
+		Connection connectDB = ConnectDB.getInstance().getConnection();
+		String sql = "SELECT * FROM Customer";
+		PreparedStatement ps = connectDB.prepareStatement(sql);
+		ResultSet rs = ps.executeQuery();
+		while (rs.next()) {
+			String id = rs.getString("id");
+			String name = rs.getString("name");
+			String email = rs.getString("email");
+			String phone = rs.getString("phone");
+			String address = rs.getString("address");
+			java.sql.Timestamp createdAt = rs.getTimestamp("created_at");
+			Customer customer = new Customer(id, name, email, phone, address, createdAt);
+			customer_list.add(customer);
+		}
+		return customer_list;
+
+	}
 
 }

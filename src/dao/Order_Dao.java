@@ -64,7 +64,7 @@ public class Order_Dao {
 		return true;
 	}
 
-	public Order getOrderById(int id) throws SQLException {
+	public Order getOrderById(String id) throws SQLException {
 		Connection connectDB = ConnectDB.getInstance().getConnection();
 		String sql = "SELECT * FROM Order WHERE id = ?";
 		PreparedStatement ps = connectDB.prepareStatement(sql);
@@ -77,7 +77,7 @@ public class Order_Dao {
 			//
 			Customer_Dao customer = new Customer_Dao();
 
-			order.setCustomer(customer.getCustomer(rs.getInt("customer_id")));
+			order.setCustomer(customer.getCustomer(rs.getString("customer_id")));
 			order.setOrderDate(rs.getDate("order_date"));
 			order.setTotalAmount(rs.getDouble("total_amount"));
 			order.setStatus(rs.getString("status"));
@@ -101,7 +101,7 @@ public class Order_Dao {
 			//
 			Customer_Dao customer = new Customer_Dao();
 
-			order.setCustomer(customer.getCustomer(rs.getInt("customer_id")));
+			order.setCustomer(customer.getCustomer(rs.getString("customer_id")));
 			order.setOrderDate(rs.getDate("order_date"));
 			order.setTotalAmount(rs.getDouble("total_amount"));
 			order.setStatus(rs.getString("status"));
@@ -117,4 +117,7 @@ public class Order_Dao {
             }
             return total;
         }
+        
+        
+        // 
 }
