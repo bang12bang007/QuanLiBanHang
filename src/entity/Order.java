@@ -2,6 +2,7 @@ package entity;
 
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.util.List;
 
 public class Order {
@@ -10,13 +11,13 @@ public class Order {
     private Date orderDate;
     private double totalAmount;
     private String status;
-    private Timestamp createdAt;
-    private List<OrderDetail> orderDetails; // One-to-many relationship with OrderDetail
+    private LocalDate createdAt;
+    private List<OrderDetail> orderDetails;
 
     // Constructors, Getters, and Setters
     public Order() {}
 
-    public Order(String id, Customer customer, Date orderDate, double totalAmount, String status, Timestamp createdAt) {
+    public Order(String id, Customer customer, Date orderDate, double totalAmount, String status, LocalDate createdAt) {
         this.id = id;
         this.customer = customer;
         this.orderDate = orderDate;
@@ -65,11 +66,11 @@ public class Order {
 		this.status = status;
 	}
 
-	public Timestamp getCreatedAt() {
+	public LocalDate getCreatedAt() {
 		return createdAt;
 	}
 
-	public void setCreatedAt(Timestamp createdAt) {
+	public void setCreatedAt(LocalDate createdAt) {
 		this.createdAt = createdAt;
 	}
 

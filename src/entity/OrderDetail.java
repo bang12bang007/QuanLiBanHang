@@ -1,6 +1,7 @@
 package entity;
 
 import java.sql.Timestamp;
+import java.time.LocalDate;
 
 public class OrderDetail {
     private String id;
@@ -9,12 +10,12 @@ public class OrderDetail {
     private int quantity;
     private double price;
     private double total; // Computed field (quantity * price)
-    private Timestamp createdAt;
+    private LocalDate createdAt;
 
     // Constructors, Getters, and Setters
     public OrderDetail() {}
 
-    public OrderDetail(String id, Order order, Item item, int quantity, double price, Timestamp createdAt) {
+    public OrderDetail(String id, Order order, Item item, int quantity, double price, LocalDate createdAt) {
         this.id = id;
         this.order = order;
         this.item = item;
@@ -72,11 +73,11 @@ public class OrderDetail {
 		this.total = total;
 	}
 
-	public Timestamp getCreatedAt() {
+	public LocalDate getCreatedAt() {
 		return createdAt;
 	}
 
-	public void setCreatedAt(Timestamp createdAt) {
+	public void setCreatedAt(LocalDate createdAt) {
 		this.createdAt = createdAt;
 	}
 

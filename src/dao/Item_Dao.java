@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import connectDB.ConnectDB;
 import entity.Item;
 import java.util.List;
+import utils.AppUtils.*;
 
 public class Item_Dao {
 	private ArrayList<Item> item_list;
@@ -61,7 +62,6 @@ public class Item_Dao {
 	}
 
 	public boolean updateItem(Item item) {
-
 		try {
 			Connection connectDB = ConnectDB.getInstance().getConnection();
 			String sql = "UPDATE items SET name = ?, price = ?, quantity = ?, category = ?, created_at = ? WHERE id = ?";
@@ -74,7 +74,6 @@ public class Item_Dao {
 			ps.setString(6, item.getId());
 			ps.executeUpdate();
 			return true;
-
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -153,6 +152,7 @@ public class Item_Dao {
         connectDB.close();
         return data;
     }
+
         
       
 		public Item getItemById(String id) throws SQLException {
@@ -277,4 +277,20 @@ public class Item_Dao {
 			return item_list;
 		}
 	
+
+        public boolean updateQuantity(String id , int newQuantity) {
+            try {
+	Connection connectDB = ConnectDB.getInstance().getConnection();
+	String sql = "UPDATE items SET quantity = ? WHERE id = ?";
+	PreparedStatement ps = connectDB.prepareStatement(sql);
+	ps.setInt(1, newQuantity);
+                  ps.setString(2,id);
+                  ps.executeUpdate();
+                  return true;
+	} catch (SQLException e) {
+                        e.printStackTrace();
+	}
+                  return false;
+    }
+
 }

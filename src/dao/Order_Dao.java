@@ -8,7 +8,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import connectDB.ConnectDB;
-
+import static java.sql.Date.valueOf;
 import entity.Order;
 
 public class Order_Dao {
@@ -17,7 +17,14 @@ public class Order_Dao {
 	public Order_Dao() {
 		order_list = new ArrayList<Order>();
 	}
-
+                public boolean addOrderList(Order od){
+                    if(order_list.contains(od)){
+                        return false;
+                    }else{
+                        order_list.add(od);
+                        return false;
+                    }
+                }
 	public ArrayList<Order> getOrderList() {
 		return order_list;
 	}
@@ -35,7 +42,7 @@ public class Order_Dao {
 			ps.setDate(3, order.getOrderDate());
 			ps.setDouble(4, order.getTotalAmount());
 			ps.setString(5, order.getStatus());
-			ps.setTimestamp(6, order.getCreatedAt());
+			ps.setDate(6, valueOf(order.getCreatedAt()));
 			ps.executeUpdate();
 			return true;
 		}
@@ -58,7 +65,7 @@ public class Order_Dao {
 		ps.setDate(2, order.getOrderDate());
 		ps.setDouble(3, order.getTotalAmount());
 		ps.setString(4, order.getStatus());
-		ps.setTimestamp(5, order.getCreatedAt());
+		ps.setDate(5, valueOf(order.getCreatedAt()));
 		ps.setString(6, order.getId());
 		ps.executeUpdate();
 		return true;
@@ -81,7 +88,7 @@ public class Order_Dao {
 			order.setOrderDate(rs.getDate("order_date"));
 			order.setTotalAmount(rs.getDouble("total_amount"));
 			order.setStatus(rs.getString("status"));
-			order.setCreatedAt(rs.getTimestamp("created_at"));
+			order.setCreatedAt(rs.getDate("created_at").toLocalDate());
 			return order;
 		}
 		return null;
@@ -105,7 +112,7 @@ public class Order_Dao {
 			order.setOrderDate(rs.getDate("order_date"));
 			order.setTotalAmount(rs.getDouble("total_amount"));
 			order.setStatus(rs.getString("status"));
-			order.setCreatedAt(rs.getTimestamp("created_at"));
+			order.setCreatedAt(rs.getDate("created_at").toLocalDate());
 			order_list.add(order);
 		}
 		return order_list;

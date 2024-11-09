@@ -86,10 +86,6 @@ public class Item {
             this.createdAt = createdAt;
 	}
         
-	public static void formatMoney(String a){
-            DecimalFormat dc = new DecimalFormat("#,##VND");
-            dc.format(a);
-        }
 
 
 

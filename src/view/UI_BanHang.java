@@ -5,11 +5,22 @@
 package view;
 
 import dao.Item_Dao;
+import dao.Order_Dao;
 import entity.Item;
+import entity.Order;
+import java.awt.Color;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
+import utils.AppUtils.*;
+import static utils.AppUtils.formatMoney;
+import static utils.AppUtils.formatTextField;
+
 
 
 /**
@@ -19,6 +30,9 @@ import javax.swing.table.DefaultTableModel;
 public class UI_BanHang extends javax.swing.JPanel {
     private DefaultTableModel productDf,cartDF;
     private static int invoiceCount = 1;
+    private Order od = new Order();
+    private Order_Dao od_dao = new Order_Dao();
+    private Item_Dao dao = new Item_Dao();
     /**
      * Creates new form UI_BanHang
      */
@@ -28,7 +42,12 @@ public class UI_BanHang extends javax.swing.JPanel {
         
         String[] title = {"Mã sản phẩm", "Tên sản phẩm","Giá","Số lượng tồn","Đơn vị"};
         Item_Dao item = new Item_Dao();
-        productDf = new DefaultTableModel(title,0);
+        productDf = new DefaultTableModel(title,0){
+        @Override
+        public boolean isCellEditable(int row, int column) {
+            return false;
+            }
+        };
         productTable.setModel(productDf);
         try {
             List<Object[]> data = item.getItemFromSQL();
@@ -41,13 +60,59 @@ public class UI_BanHang extends javax.swing.JPanel {
         }
         order_ID.setText(generateInvoiceCode());
         // table order
-        
+        String[] title_order = {"Mã sản phẩm", "Tên sản phẩm","Số lượng","Giá"};
+        cartDF = new DefaultTableModel(title_order,0){
+        @Override
+        public boolean isCellEditable(int row, int column) {
+            return column == 2;
+            }
+        };
+        cartTable.setModel(cartDF);
+        // format textFied:
+        formatTextField("Tìm kiếm theo mã sản phẩm",search_txt);
     }
     //render maHoaDon
     private String generateInvoiceCode() {
         String code = "HD" + String.format("%03d", invoiceCount);
         invoiceCount++;  
         return code;
+    }
+    // update số tiền:
+    private void updateTotal(){
+        double total = 0;
+        for(int i =0 ;i < cartTable.getRowCount();i++){
+            double price = Double.parseDouble(cartTable.getValueAt(i, 2).toString()) * Double.parseDouble(cartTable.getValueAt(i, 3).toString()) ;
+            total += price;
+            money.setText(formatMoney(total));
+        }
+    }
+    public boolean searchOrderID(){
+        if(search_txt.getText().trim().equals("")){
+            JOptionPane.showConfirmDialog(this,"Không tìm thấy");
+        }else{
+            boolean isFound = false;
+            for(int i = 0;i< productTable.getRowCount();i++){
+                if(productTable.getValueAt(i, 0).equals(search_txt.getText())){
+                   productTable.setRowSelectionInterval(i, i);
+                     isFound = true;
+                     return true;
+                }
+            }
+            if(!isFound){
+               JOptionPane.showConfirmDialog(this, "Không tìm thấy");
+               productTable.clearSelection();
+            }else{
+            }
+        }
+        return false;
+    }
+    public int findRow(String id){
+        for (int i = 0; i < productTable.getRowCount(); i++) {
+            if (productTable.getValueAt(i, 0).toString().equals(id)) {
+                return i;
+            }
+        }
+         return -1;
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -76,7 +141,9 @@ public class UI_BanHang extends javax.swing.JPanel {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         order_ID = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
+        money = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jTextField1 = new javax.swing.JTextField();
 
         setPreferredSize(new java.awt.Dimension(288, 645));
 
@@ -116,105 +183,22 @@ public class UI_BanHang extends javax.swing.JPanel {
             .addComponent(btnBack1, javax.swing.GroupLayout.DEFAULT_SIZE, 52, Short.MAX_VALUE)
         );
 
+        search_txt.setToolTipText("");
+        search_txt.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                search_txtActionPerformed(evt);
+            }
+        });
+
         btnSearch.setText("Tìm kiếm");
+        btnSearch.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSearchActionPerformed(evt);
+            }
+        });
 
         productTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
                 {null, null, null},
                 {null, null, null},
                 {null, null, null},
@@ -248,7 +232,7 @@ public class UI_BanHang extends javax.swing.JPanel {
         ));
         jScrollPane2.setViewportView(cartTable);
 
-        updateCart.setText("Sửa");
+        updateCart.setText("Cập nhập");
         updateCart.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 updateCartActionPerformed(evt);
@@ -256,6 +240,11 @@ public class UI_BanHang extends javax.swing.JPanel {
         });
 
         addCart.setText("Thêm");
+        addCart.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addCartActionPerformed(evt);
+            }
+        });
 
         delCart.setText("Xóa");
         delCart.addActionListener(new java.awt.event.ActionListener() {
@@ -264,13 +253,22 @@ public class UI_BanHang extends javax.swing.JPanel {
             }
         });
 
-        jLabel1.setText("Mã hóa đơn :");
+        jLabel1.setText("Mã hóa đơn ");
 
-        jLabel2.setText("Thành tiền :");
+        jLabel2.setText("Thành tiền ");
 
         order_ID.setText("ODER12390");
 
-        jLabel4.setText("20000000VND");
+        money.setText("20000000VND");
+
+        jLabel3.setText("Mã khách hàng ");
+
+        jTextField1.setText("(Nếu có)");
+        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -278,26 +276,35 @@ public class UI_BanHang extends javax.swing.JPanel {
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(order_ID, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(money, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jTextField1))
                 .addContainerGap())
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(order_ID, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addContainerGap()
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 37, Short.MAX_VALUE)
-                    .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
+                    .addComponent(order_ID, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addGap(3, 3, 3)
+                        .addComponent(jTextField1)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(money, javax.swing.GroupLayout.DEFAULT_SIZE, 37, Short.MAX_VALUE)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(5, 5, 5))
         );
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
@@ -319,16 +326,20 @@ public class UI_BanHang extends javax.swing.JPanel {
                         .addComponent(delCart, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(updateCart, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 556, Short.MAX_VALUE)
+//<<<<<<< HEAD
+//                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 556, Short.MAX_VALUE)
+//=======
+//>>>>>>> 036c05827712d733a2c6e34eb65060eeb456441a
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addContainerGap())))
+                        .addContainerGap())
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)))
             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(search_txt, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -336,16 +347,18 @@ public class UI_BanHang extends javax.swing.JPanel {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(scrollProduct))
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 471, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap()
+                        .addComponent(jScrollPane2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGap(2, 2, 2)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(addCart, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(delCart, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(updateCart, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(delCart, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(addCart, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -359,8 +372,8 @@ public class UI_BanHang extends javax.swing.JPanel {
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 10, Short.MAX_VALUE))
+                .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(5, 5, 5))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -380,17 +393,94 @@ public class UI_BanHang extends javax.swing.JPanel {
     }//GEN-LAST:event_btnThanhToanActionPerformed
 
     private void btnBack1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBack1ActionPerformed
-        // TODO add your handling code here:
+
     }//GEN-LAST:event_btnBack1ActionPerformed
 
     private void updateCartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateCartActionPerformed
-        // TODO add your handling code here:
+
+    int row = cartTable.getSelectedRow();
+    
+    if(row != -1){
+        String orderID = cartTable.getValueAt(row, 0).toString();
+        int productRow = findRow(orderID);
+        
+        if(productRow != -1) {
+            double price = Double.parseDouble(cartTable.getValueAt(row, 2).toString()) * Integer.parseInt(cartTable.getValueAt(row, 2).toString()); 
+            int cartQuantity = Integer.parseInt(cartTable.getValueAt(row, 2).toString());
+            int productQuantity = Integer.parseInt(productTable.getValueAt(productRow, 3).toString());
+            int newQuantity = productQuantity - cartQuantity + 1;
+            System.out.println(newQuantity);
+
+            if(dao.updateQuantity(orderID, newQuantity)){
+                if(productQuantity+1 >= cartQuantity){
+                    cartTable.setValueAt(price, row, 3);
+                    productTable.setValueAt(newQuantity, productRow, 3);
+                }
+            }
+            updateTotal(); 
+        } else {
+            JOptionPane.showMessageDialog(this, "Không tìm thấy sản phẩm tương ứng trong productTable.");
+        }
+        } else {
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn sản phẩm để thêm vào giỏ.");
+        }
     }//GEN-LAST:event_updateCartActionPerformed
 
     private void delCartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_delCartActionPerformed
-        // TODO add your handling code here:
+        int row = cartTable.getSelectedRow();
+        if(row != -1){
+            String orderID = cartTable.getValueAt(row, 0).toString();
+            int productRow = findRow(orderID);
+            int cartQuantity = Integer.parseInt(cartTable.getValueAt(row, 2).toString());
+            int productQuantity = Integer.parseInt(productTable.getValueAt(productRow, 3).toString());
+            int newQuantity = productQuantity + cartQuantity ;
+            if(dao.updateQuantity(orderID, newQuantity)){
+                    cartDF.removeRow(row);
+                    productTable.setValueAt(newQuantity, productRow, 3);
+            }else{
+                JOptionPane.showConfirmDialog(this,"Xóa không thành công ");
+            }
+            updateTotal();
+        }else{
+             JOptionPane.showMessageDialog(this, "Vui lòng chọn sản phẩm cần xóa.");
+        }
     }//GEN-LAST:event_delCartActionPerformed
 
+    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField1ActionPerformed
+
+    private void addCartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addCartActionPerformed
+
+        int row = productTable.getSelectedRow();
+        
+         if(row != -1){
+             String orderID = productTable.getValueAt(row, 0).toString();
+             String orderName = productTable.getValueAt(row, 1).toString();
+             int quantity = 1 ;
+             double price = Double.parseDouble(productTable.getValueAt(row, 2).toString()) * quantity; 
+             cartDF.addRow(new Object[]{orderID,orderName,quantity,String.valueOf(price)});
+             int newQuantity = Integer.parseInt(productTable.getValueAt(row,3).toString()) - quantity ;
+             if(dao.updateQuantity(orderID, newQuantity)){
+                 if(Integer.parseInt(productTable.getValueAt(row,3).toString()) >= quantity){
+                      productTable.setValueAt(newQuantity, row, 3);
+                 }
+            }
+              updateTotal(); 
+         }else {
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn sản phẩm để thêm vào giỏ.");
+        }
+        
+        
+    }//GEN-LAST:event_addCartActionPerformed
+
+    private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
+        searchOrderID();
+    }//GEN-LAST:event_btnSearchActionPerformed
+
+    private void search_txtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_search_txtActionPerformed
+        
+    }//GEN-LAST:event_search_txtActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addCart;
@@ -401,12 +491,14 @@ public class UI_BanHang extends javax.swing.JPanel {
     private javax.swing.JButton delCart;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTextField jTextField1;
+    private javax.swing.JLabel money;
     private javax.swing.JLabel order_ID;
     private javax.swing.JTable productTable;
     private javax.swing.JScrollPane scrollProduct;
