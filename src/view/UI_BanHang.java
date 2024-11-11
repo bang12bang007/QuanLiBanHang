@@ -591,11 +591,7 @@ public class UI_BanHang extends javax.swing.JPanel {
 
     private void btnThanhToanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThanhToanActionPerformed
     // Định dạng lại tổng tiền hiển thị ban đầu
-    String totalAmountText = tongTientxt.getText().replaceAll(",", "").replaceAll(" VND", "");
-    if (totalAmountText.isEmpty()) {
-        totalAmountText = "0"; // Hoặc gán một giá trị mặc định nếu cần thiết
-    }
-    double totalAmount = Double.parseDouble(totalAmountText);
+    double totalAmount = Double.parseDouble(tongTientxt.getText().replaceAll(",", "").replaceAll(" VND", ""));
     String formattedMoney = AppUtils.formatMoney(totalAmount);
     tongTientxt.setText(formattedMoney);
 

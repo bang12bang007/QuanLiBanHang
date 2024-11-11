@@ -5,10 +5,14 @@
         <group>
             <file>file:/D:/nam_4/HSK/QuanLiBanHang/src/view/UI_NhapKho.java</file>
             <file>file:/D:/nam_4/HSK/QuanLiBanHang/src/connectDB/ConnectDB.java</file>
+            <file>file:/D:/nam_4/HSK/QuanLiBanHang/src/dao/Item_Dao.java</file>
+            <file>file:/D:/nam_4/HSK/QuanLiBanHang/src/entity/Item.java</file>
             <file>file:/D:/nam_4/HSK/QuanLiBanHang/src/view/UI_ThongKe.java</file>
             <file>file:/D:/nam_4/HSK/QuanLiBanHang/src/view/TrangChu.java</file>
+            <file>file:/D:/nam_4/HSK/QuanLiBanHang/src/entity/OrderDetail.java</file>
+            <file>file:/D:/nam_4/HSK/QuanLiBanHang/src/entity/Order.java</file>
             <file>file:/D:/nam_4/HSK/QuanLiBanHang/src/view/UI_TonKho.java</file>
-            <file>file:/D:/nam_4/HSK/QuanLiBanHang/src/utils/AppUtils.java</file>
+            <file>file:/D:/nam_4/HSK/QuanLiBanHang/src/dao/Customer_Dao.java</file>
             <file>file:/D:/nam_4/HSK/QuanLiBanHang/src/view/UI_BanHang.java</file>
         </group>
     </open-files>
