@@ -10,18 +10,22 @@ public class Customer {
 	private String address;
 	private Timestamp createdAt;
 
-	// Constructors, Getters, and Setters
-	public Customer() {
-	}
 
-	public Customer(String id, String name, String email, String phone, String address, Timestamp createdAt) {
-		this.id = id;
-		this.name = name;
-		this.email = email;
-		this.phone = phone;
-		this.address = address;
-		this.createdAt = createdAt;
-	}
+    // Constructors, Getters, and Setters
+    public Customer() {
+    }
+    public Customer(String ma){
+        this.id =ma;
+    }
+    public Customer(String id, String name, String email, String phone, String address, Timestamp createdAt) {
+        this.id = id;
+        this.name = name;
+        this.email = email;
+        this.phone = phone;
+        this.address = address;
+        this.createdAt = createdAt;
+    }
+
 
 	public String getId() {
 		return id;

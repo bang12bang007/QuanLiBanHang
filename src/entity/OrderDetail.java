@@ -5,14 +5,13 @@ import java.time.LocalDate;
 
 public class OrderDetail {
     private String id;
-    private Order order; // Foreign key relationship
-    private Item item; // Foreign key relationship
+    private Order order; 
+    private Item item; 
     private int quantity;
     private double price;
-    private double total; // Computed field (quantity * price)
+    private double total; 
     private LocalDate createdAt;
 
-    // Constructors, Getters, and Setters
     public OrderDetail() {}
 
     public OrderDetail(String id, Order order, Item item, int quantity, double price, LocalDate createdAt) {

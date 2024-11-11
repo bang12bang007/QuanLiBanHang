@@ -6,25 +6,29 @@ import java.time.LocalDate;
 import java.util.List;
 
 public class Order {
+
 	private String id;
-	private Customer customer; // Foreign key relationship
-	private Date orderDate;
+	private Customer customer;
+	private LocalDate orderDate;
 	private double totalAmount;
 	private String status;
-
 	private List<OrderDetail> orderDetails;
 
 	// Constructors, Getters, and Setters
 	public Order() {
 	}
 
-	public Order(String id, Customer customer, Date orderDate, double totalAmount, String status) {
+	public Order(String ma) {
+		this.id = ma;
+	}
+
+	public Order(String id, Customer customer, LocalDate orderDate, double totalAmount, String status) {
 		this.id = id;
 		this.customer = customer;
-		this.orderDate = orderDate;
+		this.orderDate = LocalDate.now();
 		this.totalAmount = totalAmount;
 		this.status = status;
-		
+
 	}
 
 	public String getId() {
@@ -43,11 +47,11 @@ public class Order {
 		this.customer = customer;
 	}
 
-	public Date getOrderDate() {
+	public LocalDate getOrderDate() {
 		return orderDate;
 	}
 
-	public void setOrderDate(Date orderDate) {
+	public void setOrderDate(LocalDate orderDate) {
 		this.orderDate = orderDate;
 	}
 
@@ -66,7 +70,6 @@ public class Order {
 	public void setStatus(String status) {
 		this.status = status;
 	}
-
 
 	public List<OrderDetail> getOrderDetails() {
 		return orderDetails;
