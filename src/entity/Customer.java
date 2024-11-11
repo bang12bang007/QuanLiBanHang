@@ -11,8 +11,11 @@ public class Customer {
     private Timestamp createdAt;
 
     // Constructors, Getters, and Setters
-    public Customer() {}
-
+    public Customer() {
+    }
+    public Customer(String ma){
+        this.id =ma;
+    }
     public Customer(String id, String name, String email, String phone, String address, Timestamp createdAt) {
         this.id = id;
         this.name = name;

@@ -17,18 +17,15 @@ import javax.swing.JTextField;
  * @author HP
  */
 public class AppUtils {
-    //format money
     public static String formatMoney(double a){
-          DecimalFormat dc = new DecimalFormat("#,##0 VND");
+          DecimalFormat dc = new DecimalFormat("#,###.000 VND");
           String formatter = dc.format(a);
           return formatter;
      }
-    //format date
     public static String formatDate(LocalDate time) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
         return time.format(formatter);
     }
-    //format textfield chỉnh theo cái search_txt bên UI bán hàng của tao á dòng 70 bên UI_BanHang
     public static void formatTextField(String title_textField, JTextField a){
             String placeholderText = title_textField;
             a.setText(placeholderText);
@@ -51,4 +48,13 @@ public class AppUtils {
         }
     );
   }    
+    public static double parseVND(String amount) {
+        String cleanAmount = amount.replace("VND", "").replace(".", "").trim();
+        return Double.parseDouble(cleanAmount)/1000;
+    }
+    public class DuplicateOrderException extends Exception {
+    public DuplicateOrderException(String message) {
+        super(message);
+    }
+}
 }
