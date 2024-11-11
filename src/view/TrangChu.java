@@ -28,6 +28,7 @@ public final class TrangChu extends javax.swing.JFrame implements ActionListener
      private UI_BanHang sale = new UI_BanHang();
      private UI_NhapKho ware = new UI_NhapKho();
      private UI_TonKho inventory = new UI_TonKho();
+     private UI_ThongKe Dashboard = new UI_ThongKe();
     /**
      * Creates new form TrangChu
      */
@@ -49,6 +50,7 @@ public final class TrangChu extends javax.swing.JFrame implements ActionListener
         jpMain.add(sale,"Sale");
         jpMain.add(ware,"WareHouse");
         jpMain.add(inventory,"Inventory");
+        jpMain.add(Dashboard, "Dashboard");
         ImageIcon resizedIcon = new ImageIcon("icon\\home.png");
         ImageIcon resized = new ImageIcon("icon\\user.png");
         ImageIcon resizedLogout = new ImageIcon("icon\\logout.png");
@@ -146,6 +148,11 @@ public final class TrangChu extends javax.swing.JFrame implements ActionListener
         btnDashboard.setMaximumSize(new java.awt.Dimension(91, 23));
         btnDashboard.setMinimumSize(new java.awt.Dimension(91, 23));
         btnDashboard.setPreferredSize(new java.awt.Dimension(91, 23));
+        btnDashboard.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDashboardActionPerformed(evt);
+            }
+        });
 
         btnLogOut.setBackground(new java.awt.Color(255, 204, 255));
         btnLogOut.addActionListener(new java.awt.event.ActionListener() {
@@ -264,6 +271,10 @@ public final class TrangChu extends javax.swing.JFrame implements ActionListener
     private void btnInventoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInventoryActionPerformed
         card.show(jpMain,"Inventory");
     }//GEN-LAST:event_btnInventoryActionPerformed
+
+    private void btnDashboardActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDashboardActionPerformed
+        card.show(jpMain, "Dashboard");
+    }//GEN-LAST:event_btnDashboardActionPerformed
 
     /**
      * @param args the command line arguments

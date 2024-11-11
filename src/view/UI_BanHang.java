@@ -590,10 +590,14 @@ public class UI_BanHang extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnThanhToanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThanhToanActionPerformed
-    // Định dạng lại tổng tiền hiển thị ban đầu
-    double totalAmount = Double.parseDouble(tongTientxt.getText().replaceAll(",", "").replaceAll(" VND", ""));
+    String totalAmountText = tongTientxt.getText().replaceAll(",", "").replaceAll(" VND", "");
+    if (totalAmountText.isEmpty()) {
+        totalAmountText = "0"; // Hoặc gán một giá trị mặc định nếu cần thiết
+    }
+    double totalAmount = Double.parseDouble(totalAmountText);
     String formattedMoney = AppUtils.formatMoney(totalAmount);
     tongTientxt.setText(formattedMoney);
+
 
     // Định dạng ngày hiện tại để hiển thị trên hóa đơn
     String formattedDate = AppUtils.formatDate(LocalDate.now());
