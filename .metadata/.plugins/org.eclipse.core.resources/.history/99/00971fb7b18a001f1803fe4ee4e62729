@@ -1,0 +1,7 @@
+/**
+ * 
+ */
+/**
+ * 
+ */
+module quanLyBanHang {exports connectDB;exports view;exports dao;exports entity;requires java.desktop;requires java.logging;requires java.sql;}
