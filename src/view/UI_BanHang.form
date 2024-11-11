@@ -21,7 +21,7 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Component id="jPanel1" alignment="0" pref="872" max="32767" attributes="0"/>
+          <Component id="jPanel1" alignment="0" pref="1123" max="32767" attributes="0"/>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
@@ -85,6 +85,10 @@
                               <EmptySpace min="-2" max="-2" attributes="0"/>
                               <Component id="updateCart" min="-2" pref="106" max="-2" attributes="0"/>
                           </Group>
+<<<<<<< HEAD
+                          <Component id="jScrollPane2" pref="556" max="32767" attributes="0"/>
+=======
+>>>>>>> 036c05827712d733a2c6e34eb65060eeb456441a
                           <Group type="102" alignment="0" attributes="0">
                               <Component id="jPanel5" max="32767" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>

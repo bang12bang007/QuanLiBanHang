@@ -78,7 +78,7 @@ public class Order_Dao {
 		return true;
 	}
 
-	public Order getOrderById(int id) throws SQLException {
+	public Order getOrderById(String id) throws SQLException {
 		Connection connectDB = ConnectDB.getInstance().getConnection();
 		String sql = "SELECT * FROM orders WHERE id = ?";
 		PreparedStatement ps = connectDB.prepareStatement(sql);
@@ -88,8 +88,6 @@ public class Order_Dao {
 			Order order = new Order();
 			order.setId(rs.getString("id"));
 			Customer_Dao customer = new Customer_Dao();
-			order.setCustomer(customer.getCustomer(rs.getInt("customer_id")));
-			order.setOrderDate(rs.getDate("order_date").toLocalDate());
 			order.setTotalAmount(rs.getDouble("total_amount"));
 			order.setStatus(rs.getString("status"));
 			return order;
@@ -119,6 +117,7 @@ public class Order_Dao {
                 connectDB.close();
                 return data;
     }
+
         public Double getTotalOrders(){
             double total =0;
             for(int i =0; i< order_list.size();i++){
@@ -126,6 +125,7 @@ public class Order_Dao {
             }
             return total;
         }
+
         public boolean isOrderIDExist(String orderID) throws SQLException{
             Connection connectDB = ConnectDB.getInstance().getConnection();
             String sql = "SELECT COUNT(*) FROM orders WHERE id = ?";
@@ -136,5 +136,5 @@ public class Order_Dao {
                  return rs.getInt(1) > 0;
             }
             return false;
-        }        
+        }             
 }
