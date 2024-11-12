@@ -14,6 +14,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.sql.SQLException;
 
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
@@ -29,6 +30,9 @@ public final class TrangChu extends javax.swing.JFrame implements ActionListener
      private UI_NhapKho ware = new UI_NhapKho();
      private UI_TonKho inventory = new UI_TonKho();
      private UI_ThongKe Dashboard = new UI_ThongKe();
+
+     private UI_DonHang order = new UI_DonHang();
+
     /**
      * Creates new form TrangChu
      */
@@ -37,15 +41,16 @@ public final class TrangChu extends javax.swing.JFrame implements ActionListener
         return scale;
     }
     public CardLayout card = new CardLayout();
-    public TrangChu(){
+    public TrangChu() throws SQLException{
         initComponents();
-        Toolkit toolkit = Toolkit.getDefaultToolkit();
-        Dimension screenSize = toolkit.getScreenSize();
-        int x = (screenSize.width - getWidth()) / 2;
-        int y = (screenSize.height - getHeight()) / 2;
-        setLocation(x, y);
-        // Chuyển đổi màn hình : Thêm panel tiếp theo xuống show vào sự kiện click
-        jpMain.setLayout(card);
+		Toolkit toolkit = Toolkit.getDefaultToolkit();
+		Dimension screenSize = toolkit.getScreenSize();
+		int x = (screenSize.width - getWidth()) / 2;
+		int y = (screenSize.height - getHeight()) / 2;
+		setLocation(x, y);
+		// Chuyển đổi màn hình : Thêm panel tiếp theo xuống show vào sự kiện click
+		jpMain.setLayout(card);
+
 
         jpMain.add(sale,"Sale");
         jpMain.add(ware,"WareHouse");
@@ -71,6 +76,31 @@ public final class TrangChu extends javax.swing.JFrame implements ActionListener
         btnLogOut.setIcon(iconLogOut);
         
 
+		jpMain.add(sale,"Sale");
+		jpMain.add(ware,"WareHouse");
+		jpMain.add(inventory,"Inventory");
+		jpMain.add(order,"Order");
+		
+                /*ImageIcon*/ resizedIcon = new ImageIcon("icon\\home.png");
+		 resized = new ImageIcon("icon\\user.png");
+		 resizedLogout = new ImageIcon("icon\\logout.png");
+		//iconHome
+		
+		imgHome = resizedIcon.getImage();
+		homeIcon = new ImageIcon(sacleImg(imgHome));
+		btnHome.setIcon(homeIcon);
+		// iconUser
+		
+		imgUser = resized.getImage();
+		iconUser = new ImageIcon(sacleImg(imgUser));
+		btnAvata.setIcon(iconUser);
+		//iconLogOut
+		
+		imgLogOut = resizedLogout.getImage();
+		iconLogOut = new ImageIcon(sacleImg(imgLogOut));
+		btnLogOut.setIcon(iconLogOut);
+
+
     }
     private void set_UI(){
         
@@ -87,7 +117,7 @@ public final class TrangChu extends javax.swing.JFrame implements ActionListener
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         btnSale = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        btnDonHang = new javax.swing.JButton();
         btnWareHouse = new javax.swing.JButton();
         btnInventory = new javax.swing.JButton();
         btnDashboard = new javax.swing.JButton();
@@ -114,13 +144,13 @@ public final class TrangChu extends javax.swing.JFrame implements ActionListener
             }
         });
 
-        jButton2.setBackground(new java.awt.Color(255, 204, 255));
-        jButton2.setText("ĐƠN HÀNG");
-        jButton2.setMaximumSize(new java.awt.Dimension(91, 23));
-        jButton2.setMinimumSize(new java.awt.Dimension(91, 23));
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        btnDonHang.setBackground(new java.awt.Color(255, 204, 255));
+        btnDonHang.setText("ĐƠN HÀNG");
+        btnDonHang.setMaximumSize(new java.awt.Dimension(91, 23));
+        btnDonHang.setMinimumSize(new java.awt.Dimension(91, 23));
+        btnDonHang.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                btnDonHangActionPerformed(evt);
             }
         });
 
@@ -179,7 +209,7 @@ public final class TrangChu extends javax.swing.JFrame implements ActionListener
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnSale, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnDonHang, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnWareHouse, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -201,7 +231,7 @@ public final class TrangChu extends javax.swing.JFrame implements ActionListener
                     .addComponent(btnLogOut, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnDashboard, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 43, Short.MAX_VALUE)
                     .addComponent(btnInventory, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnDonHang, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnSale, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnWareHouse, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
@@ -248,9 +278,9 @@ public final class TrangChu extends javax.swing.JFrame implements ActionListener
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton2ActionPerformed
+    private void btnDonHangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDonHangActionPerformed
+        card.show(jpMain, "Order");
+    }//GEN-LAST:event_btnDonHangActionPerformed
 
     private void btnLogOutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogOutActionPerformed
         System.exit(0);
@@ -306,9 +336,12 @@ public final class TrangChu extends javax.swing.JFrame implements ActionListener
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             @Override
-            public void run() {
-                new TrangChu().setVisible(true);
-                
+            public void run(){
+                try {
+                        new TrangChu().setVisible(true);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
             }
         });
     }
@@ -316,12 +349,12 @@ public final class TrangChu extends javax.swing.JFrame implements ActionListener
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAvata;
     private javax.swing.JButton btnDashboard;
+    private javax.swing.JButton btnDonHang;
     private javax.swing.JButton btnHome;
     private javax.swing.JButton btnInventory;
     private javax.swing.JButton btnLogOut;
     private javax.swing.JButton btnSale;
     private javax.swing.JButton btnWareHouse;
-    private javax.swing.JButton jButton2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jpMain;

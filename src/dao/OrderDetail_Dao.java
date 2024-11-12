@@ -7,6 +7,7 @@ import java.util.ArrayList;
 
 import connectDB.ConnectDB;
 import entity.OrderDetail;
+import javax.swing.table.DefaultTableModel;
 
 public class OrderDetail_Dao {
 	private ArrayList<OrderDetail> orderDetail_list;
@@ -15,7 +16,7 @@ public class OrderDetail_Dao {
 		orderDetail_list = new ArrayList<OrderDetail>();
 	}
 
-	public boolean addOrderDetail(OrderDetail orderDetail) throws Exception {
+	public boolean addOrderDetail(OrderDetail orderDetail, DefaultTableModel model) throws Exception {
 		try {
 			Connection connectDB = ConnectDB.getInstance().getConnection();
 			String sql = "INSERT INTO OrderDetail VALUES(?,?,?,?,?)";
@@ -25,19 +26,29 @@ public class OrderDetail_Dao {
 			} else {
 				ps.setString(1, orderDetail.getId());
 				ps.setString(2, orderDetail.getOrder().getId());
-
 				ps.setString(3, orderDetail.getItem().getId());
 				ps.setInt(4, orderDetail.getQuantity());
 				ps.setDouble(5, orderDetail.getPrice());
-				ps.executeUpdate();
-				return true;
-
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return false;
-	}
+				int rowsAffected = ps.executeUpdate();
+                                                                        if (rowsAffected > 0) {
+                                                                            Object[] rowData = new Object[] {
+                                                                                orderDetail.getId(),
+                                                                                orderDetail.getOrder().getId(),
+                                                                                orderDetail.getItem().getId(),
+                                                                                orderDetail.getQuantity(),
+                                                                                orderDetail.getPrice(),
+                                                                                orderDetail.getTotal(),
+                                                                                orderDetail.getCreatedAt()
+                                                                            };
+                                                                            model.addRow(rowData);
+                                                                            return true;
+                                                                        }
+                                                     }
+                                    } catch (Exception e) {
+                                                    e.printStackTrace();
+                                    }
+                                     return false;
+}
 
 	// get all order details
 	public ArrayList<OrderDetail> getOrderDetailList() {

@@ -24,6 +24,7 @@ import javax.swing.table.DefaultTableModel;
 import connectDB.ConnectDB;
 import dao.Item_Dao;
 import entity.Item;
+import utils.AppUtils;
 
 /**
  *
@@ -44,6 +45,8 @@ public class UI_TonKho extends javax.swing.JPanel implements ActionListener, Mou
 		itemDao = new Item_Dao();
 		item = new Item();
 		initComponents();
+		
+		AppUtils.formatTextField("Bạn có thể nhập Mã Sản Phẩm hoặc Tên Sản Phẩm để tìm.....", search_txt);
 	}
 
 	/**
@@ -276,7 +279,7 @@ public class UI_TonKho extends javax.swing.JPanel implements ActionListener, Mou
                 ArrayList<Item> listCategory = null;
                				try {
 					item = itemDao.getItemById(search_txt.getText());
-					 list = itemDao.getItemByName(search_txt.getText());
+					 list = itemDao.getItemByNameFinal(search_txt.getText());
 					 listCategory = itemDao.getItemByCategory(search_txt.getText());
 					if (item == null && list == null && listCategory == null) {
 						JOptionPane.showMessageDialog(this, "Không tìm thấy sản phẩm");

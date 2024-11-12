@@ -21,7 +21,7 @@ public class Customer_Dao {
 
 		try {
 			Connection connectDB = ConnectDB.getInstance().getConnection();
-			String sql = "INSERT INTO Customer VALUES(?,?,?,?,?,?)";
+			String sql = "INSERT INTO Customers VALUES(?,?,?,?,?,?)";
 			PreparedStatement ps = connectDB.prepareStatement(sql);
 			ps.setString(1, customer.getId());
 			ps.setString(2, customer.getName());
@@ -29,7 +29,7 @@ public class Customer_Dao {
 			ps.setString(4, customer.getPhone());
 			ps.setString(5, customer.getAddress());
 			ps.setTimestamp(6, customer.getCreatedAt());
-			
+
 			ps.executeUpdate();
 			return true;
 
@@ -48,7 +48,7 @@ public class Customer_Dao {
 	public boolean deleteCustomer(int id) {
 		try {
 			Connection connectDB = ConnectDB.getInstance().getConnection();
-			String sql = "DELETE FROM Customer WHERE id = ?";
+			String sql = "DELETE FROM Customers WHERE id = ?";
 			PreparedStatement ps = connectDB.prepareStatement(sql);
 			ps.setInt(1, id);
 			ps.executeUpdate();
@@ -64,8 +64,8 @@ public class Customer_Dao {
 	public boolean updateCustomer(Customer customer) {
 		try {
 			Connection connectDB = ConnectDB.getInstance().getConnection();
-			String sql = "UPDATE Customer SET name = ?, email = ?, phone = ?, address = ?, created_at = ? WHERE id = ?";
-		
+			String sql = "UPDATE Customers SET name = ?, email = ?, phone = ?, address = ?, created_at = ? WHERE id = ?";
+
 			PreparedStatement ps = connectDB.prepareStatement(sql);
 			ps.setString(1, customer.getName());
 			ps.setString(2, customer.getEmail());
@@ -86,7 +86,7 @@ public class Customer_Dao {
 	public Customer getCustomer(String id) {
 		try {
 			Connection connectDB = ConnectDB.getInstance().getConnection();
-			String sql = "SELECT * FROM Customer WHERE id = ?";
+			String sql = "SELECT * FROM Customers WHERE id = ?";
 			PreparedStatement ps = connectDB.prepareStatement(sql);
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
@@ -95,7 +95,7 @@ public class Customer_Dao {
 				String email = rs.getString("email");
 				String phone = rs.getString("phone");
 				String address = rs.getString("address");
-				  
+
 				Timestamp createdAt = rs.getTimestamp("created_at");
 				Customer customer = new Customer(id1, name, email, phone, address, createdAt);
 				return customer;
@@ -111,7 +111,7 @@ public class Customer_Dao {
 	public ArrayList<Customer> getAllCustomer() throws SQLException {
 
 		Connection connectDB = ConnectDB.getInstance().getConnection();
-		String sql = "SELECT * FROM Customer";
+		String sql = "SELECT * FROM Customers";
 		PreparedStatement ps = connectDB.prepareStatement(sql);
 		ResultSet rs = ps.executeQuery();
 		while (rs.next()) {

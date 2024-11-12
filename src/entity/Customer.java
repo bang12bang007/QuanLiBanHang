@@ -3,16 +3,20 @@ package entity;
 import java.sql.Timestamp;
 
 public class Customer {
-    private String id;
-    private String name;
-    private String email;
-    private String phone;
-    private String address;
-    private Timestamp createdAt;
+	private String id;
+	private String name;
+	private String email;
+	private String phone;
+	private String address;
+	private Timestamp createdAt;
+
 
     // Constructors, Getters, and Setters
-    public Customer() {}
-
+    public Customer() {
+    }
+    public Customer(String ma){
+        this.id =ma;
+    }
     public Customer(String id, String name, String email, String phone, String address, Timestamp createdAt) {
         this.id = id;
         this.name = name;
@@ -21,6 +25,7 @@ public class Customer {
         this.address = address;
         this.createdAt = createdAt;
     }
+
 
 	public String getId() {
 		return id;
@@ -70,6 +75,6 @@ public class Customer {
 		this.createdAt = createdAt;
 	}
 
-    // Getters and Setters
-    // toString method
+	// Getters and Setters
+	// toString method
 }

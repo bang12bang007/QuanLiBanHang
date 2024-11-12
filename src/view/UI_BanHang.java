@@ -6,7 +6,7 @@ package view;
 
 import dao.Item_Dao;
 import dao.Order_Dao;
-import entity.Item;
+import entity.Customer;
 import entity.Order;
 import java.awt.CardLayout;
 import java.awt.Color;
@@ -16,23 +16,42 @@ import java.awt.event.FocusEvent;
 import java.util.List;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
+import java.awt.BorderLayout;
+import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.SQLException;
+import java.time.LocalDate;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
+
+import javax.swing.border.EmptyBorder;
+
 import javax.swing.table.DefaultTableModel;
 
 import utils.AppUtils.*;
 import static utils.AppUtils.formatMoney;
 import static utils.AppUtils.formatTextField;
+
 import javax.swing.JPanel;
 
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Element;
-import com.itextpdf.text.Font;
+
 import com.itextpdf.text.FontFactory;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.Phrase;
@@ -51,6 +70,7 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Date;
 import utils.AppUtils;
+import static utils.AppUtils.parseVND;
 
 
 
@@ -60,14 +80,14 @@ import utils.AppUtils;
  */
 public class UI_BanHang extends javax.swing.JPanel {
     private DefaultTableModel productDf,cartDF;
-    private static int invoiceCount = 1;
     private Order od = new Order();
     private Order_Dao od_dao = new Order_Dao();
     private Item_Dao dao = new Item_Dao();
+    private String status;
     /**
      * Creates new form UI_BanHang
      */
-    public UI_BanHang() {
+    public UI_BanHang() throws SQLException {
         initComponents();
         // Table sản phẩm
         String[] title = {"Mã sản phẩm", "Tên sản phẩm","Giá","Số lượng tồn","Đơn vị"};
@@ -88,24 +108,28 @@ public class UI_BanHang extends javax.swing.JPanel {
             e.printStackTrace();
             JOptionPane.showMessageDialog(this, "Lỗi khi tải dữ liệu từ cơ sở dữ liệu: " + e.getMessage());
         }
-        order_ID.setText(generateInvoiceCode());
+        order_ID.setText(generateUniqueOrderID());
         // table order
         String[] title_order = {"Mã sản phẩm", "Tên sản phẩm","Số lượng","Giá"};
         cartDF = new DefaultTableModel(title_order,0){
         @Override
         public boolean isCellEditable(int row, int column) {
-            return column == 2;
+            return false;
             }
         };
         cartTable.setModel(cartDF);
         // format textFied:
         formatTextField("Tìm kiếm theo mã sản phẩm",search_txt);
     }
-    //render maHoaDon
     private String generateInvoiceCode() {
-        String code = "HD" + String.format("%03d", invoiceCount);
-        invoiceCount++;  
-        return code;
+       return "HD" + (int)(Math.random() * 1000000);
+    }
+    public String generateUniqueOrderID() throws SQLException {
+        String orderID;
+        do {
+            orderID = generateInvoiceCode();
+        } while (od_dao.isOrderIDExist(orderID)); 
+        return orderID;
     }
     // update số tiền:
     private void updateTotal(){
@@ -191,7 +215,7 @@ public class UI_BanHang extends javax.swing.JPanel {
         order_ID = new javax.swing.JLabel();
         money = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        customID_txt = new javax.swing.JTextField();
 
         HoaDon.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -464,14 +488,14 @@ public class UI_BanHang extends javax.swing.JPanel {
 
         order_ID.setText("ODER12390");
 
-        money.setText("20000000VND");
+        money.setText("0 VND");
 
         jLabel3.setText("Mã khách hàng ");
 
-        jTextField1.setText("(Nếu có)");
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+        customID_txt.setText("CUST001");
+        customID_txt.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
+                customID_txtActionPerformed(evt);
             }
         });
 
@@ -489,7 +513,7 @@ public class UI_BanHang extends javax.swing.JPanel {
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(order_ID, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(money, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jTextField1))
+                    .addComponent(customID_txt))
                 .addContainerGap())
         );
         jPanel5Layout.setVerticalGroup(
@@ -504,7 +528,7 @@ public class UI_BanHang extends javax.swing.JPanel {
                     .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel5Layout.createSequentialGroup()
                         .addGap(3, 3, 3)
-                        .addComponent(jTextField1)))
+                        .addComponent(customID_txt)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(money, javax.swing.GroupLayout.DEFAULT_SIZE, 37, Short.MAX_VALUE)
@@ -526,7 +550,7 @@ public class UI_BanHang extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(addCart, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(addCart, javax.swing.GroupLayout.DEFAULT_SIZE, 132, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(delCart, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -581,14 +605,142 @@ public class UI_BanHang extends javax.swing.JPanel {
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+
             .addComponent(mainPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 868, Short.MAX_VALUE)
+
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(mainPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 665, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
     }// </editor-fold>//GEN-END:initComponents
+private void showDialogThanhToan(String maHoaDon){
+        JDialog dialog = new JDialog();
+        dialog.setSize(600, 600);
+        dialog.setLocationRelativeTo(null);
+        dialog.setTitle("Thanh Toán - Mã Hóa Đơn: " + maHoaDon);
+        
+        String[] productColumns = {"Mã Sản Phẩm", "Tên Sản Phẩm", "Số Lượng", "Đơn Giá"};
+        DefaultTableModel productModel = new DefaultTableModel(productColumns, 0);
 
+        for(int i =0 ;i< cartTable.getRowCount();i++){;
+            Object[] row = {cartTable.getValueAt(i, 0) , cartTable.getValueAt(i, 1) , cartTable.getValueAt(i, 2),cartTable.getValueAt(i, 3)};
+            productModel.addRow(row);
+        }
+
+        JTable productTable = new JTable(productModel);
+
+        // Tạo bảng và cuộn bảng
+        JPanel tablePanel = new JPanel(new BorderLayout());
+        tablePanel.setBorder(new EmptyBorder(10, 10, 10, 10));
+        tablePanel.add(new JScrollPane(productTable), BorderLayout.CENTER);
+
+        // Tính tổng tiền
+        double totalAmount = parseVND(money.getText()); 
+        JLabel totalLabel = new JLabel("Tổng tiền: " + formatMoney(totalAmount) , SwingConstants.RIGHT);
+        totalLabel.setFont(new Font("Arial", Font.BOLD, 16));
+
+        // Tạo các trường nhập tiền thanh toán
+        JPanel paymentPanel = new JPanel(new GridLayout(2, 2, 10, 10));
+        paymentPanel.setBorder(new EmptyBorder(20, 10, 20, 10));
+
+        JLabel paymentLabel = new JLabel("Tiền khách đưa: ");
+        JTextField paymentField = new JTextField();
+        JLabel changeLabel = new JLabel("Tiền thối lại: ");
+        JLabel changeAmount = new JLabel("0 VND");
+
+        paymentPanel.add(paymentLabel);
+        paymentPanel.add(paymentField);
+        paymentPanel.add(changeLabel);
+        paymentPanel.add(changeAmount);
+
+        paymentField.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    double paidAmount = Double.parseDouble(paymentField.getText().replace(",", ""));
+                    double change = paidAmount - totalAmount;
+                    changeAmount.setText(change >= 0 ? String.format("%.0f ", change) + "VND" : "Không đủ tiền");
+                } catch (NumberFormatException ex) {
+                    changeAmount.setText("Số tiền không hợp lệ");
+                }
+            }
+        });
+
+        JPanel buttonPanel = new JPanel();
+        JButton closeButton = new JButton("Đóng");
+        closeButton.addActionListener(e -> dialog.dispose());
+
+        JButton okButton = new JButton("Thanh Toán");
+        okButton.addActionListener(e -> {
+            try {
+                double paidAmount = Double.parseDouble(paymentField.getText().replace(",", ""));
+                if (paidAmount >= totalAmount) {
+                    JOptionPane.showMessageDialog(dialog, "Thanh toán thành công!\nTiền thối lại: " + changeAmount.getText());
+                    status = "Đã thanh toán";
+                    for(int i =0; i< cartTable.getRowCount();i++){
+                        String id = order_ID.getText();
+                        String customer_id_check = customID_txt.getText();
+                        String customer_id = (customer_id_check ==null)?"CUST000":customer_id_check;
+                        LocalDate order_date = LocalDate.now();
+                        od = new Order(customer_id);
+                        Customer cs = new Customer();
+                        cs.setId(customer_id);
+                        Double total_amount = utils.AppUtils.parseVND(money.getText()); 
+                        Order od = new Order(id,cs, order_date, total_amount, status);
+                        dialog.dispose();
+                    try {
+                        od_dao.addOrder(od);
+                    } catch (SQLException ex) {
+               ex.printStackTrace();
+            }
+        }
+                    dialog.dispose();
+                } else {
+                    JOptionPane.showMessageDialog(dialog, "Số tiền khách đưa không đủ để thanh toán.");
+                    
+                }
+            } catch (NumberFormatException ex) {
+                JOptionPane.showMessageDialog(dialog, "Vui lòng nhập số tiền hợp lệ.");
+            }
+        });
+
+        JButton waitButton = new JButton("Chờ Thanh Toán");
+        waitButton.addActionListener(e->{
+            status = "Chờ thanh toán";
+            String id = order_ID.getText();
+            String customer_id_check = customID_txt.getText();
+            String customer_id = (customer_id_check ==null)?"CUST000":customer_id_check;
+            LocalDate order_date = LocalDate.now();
+            od = new Order(customer_id);
+            Customer cs = new Customer();
+            cs.setId(customer_id);
+            Double total_amount = utils.AppUtils.parseVND(money.getText());
+            Order od = new Order(id,cs, order_date, total_amount, status);
+            dialog.dispose();
+            try {
+                od_dao.addOrder(od);
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+            dialog.dispose();
+         });
+        buttonPanel.add(closeButton);
+        buttonPanel.add(okButton);
+        buttonPanel.add(waitButton);
+
+        JPanel mainPanel = new JPanel(new BorderLayout());
+        JPanel totalPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        totalPanel.add(totalLabel);
+
+        mainPanel.add(tablePanel, BorderLayout.CENTER);
+        mainPanel.add(totalPanel, BorderLayout.SOUTH);  
+        mainPanel.add(paymentPanel, BorderLayout.NORTH); 
+
+        dialog.add(mainPanel, BorderLayout.CENTER);
+        dialog.add(buttonPanel, BorderLayout.SOUTH);
+        dialog.setVisible(true);
+    }
     private void btnThanhToanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThanhToanActionPerformed
     String totalAmountText = tongTientxt.getText().replaceAll(",", "").replaceAll(" VND", "");
     if (totalAmountText.isEmpty()) {
@@ -657,6 +809,10 @@ public class UI_BanHang extends javax.swing.JPanel {
     // Hiển thị panel HoaDon
     hoaDonDialog.add(HoaDon);
     hoaDonDialog.setVisible(true);
+
+
+        String id = order_ID.getText();
+        showDialogThanhToan(id);
     }//GEN-LAST:event_btnThanhToanActionPerformed
 
     private void btnBack1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBack1ActionPerformed
@@ -664,33 +820,35 @@ public class UI_BanHang extends javax.swing.JPanel {
     }//GEN-LAST:event_btnBack1ActionPerformed
 
     private void updateCartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateCartActionPerformed
+            int row = cartTable.getSelectedRow();
+            if(row != -1){
+             String orderID = cartTable.getValueAt(row, 0).toString();
+             int productRow = findRow(orderID);
+             if(productRow != -1) {
+                 int oldCartQuantity = Integer.parseInt(cartTable.getValueAt(row, 2).toString()); 
+                 int newCartQuantity = Integer.parseInt(JOptionPane.showInputDialog("Nhập số lượng mới:")); 
+                 if(newCartQuantity > 0) {
+                     int productQuantity = Integer.parseInt(productTable.getValueAt(productRow, 3).toString());
+                     int quantityDifference = newCartQuantity - oldCartQuantity; // Tính sự chênh lệch
 
-    int row = cartTable.getSelectedRow();
-    
-    if(row != -1){
-        String orderID = cartTable.getValueAt(row, 0).toString();
-        int productRow = findRow(orderID);
-        
-        if(productRow != -1) {
-            double price = Double.parseDouble(cartTable.getValueAt(row, 2).toString()) * Integer.parseInt(cartTable.getValueAt(row, 2).toString()); 
-            int cartQuantity = Integer.parseInt(cartTable.getValueAt(row, 2).toString());
-            int productQuantity = Integer.parseInt(productTable.getValueAt(productRow, 3).toString());
-            int newQuantity = productQuantity - cartQuantity + 1;
-            System.out.println(newQuantity);
-
-            if(dao.updateQuantity(orderID, newQuantity)){
-                if(productQuantity+1 >= cartQuantity){
-                    cartTable.setValueAt(price, row, 3);
-                    productTable.setValueAt(newQuantity, productRow, 3);
-                }
-            }
-            updateTotal(); 
-        } else {
-            JOptionPane.showMessageDialog(this, "Không tìm thấy sản phẩm tương ứng trong productTable.");
-        }
-        } else {
-            JOptionPane.showMessageDialog(this, "Vui lòng chọn sản phẩm để thêm vào giỏ.");
-        }
+                     if(productQuantity >= quantityDifference) {
+                         double price = Double.parseDouble(cartTable.getValueAt(row, 3).toString()) * newCartQuantity; 
+                         cartTable.setValueAt(newCartQuantity, row, 2);
+                         cartTable.setValueAt(price, row, 3);
+                         productTable.setValueAt(productQuantity - quantityDifference, productRow, 3);
+                         updateTotal(); 
+                     } else {
+                         JOptionPane.showMessageDialog(this, "Không đủ số lượng sản phẩm trong kho.");
+                     }
+                 } else {
+                     JOptionPane.showMessageDialog(this, "Số lượng không hợp lệ.");
+                 }
+             } else {
+                 JOptionPane.showMessageDialog(this, "Không tìm thấy sản phẩm tương ứng.");
+             }
+         } else {
+             JOptionPane.showMessageDialog(this, "Vui lòng chọn sản phẩm để sửa.");
+         }
     }//GEN-LAST:event_updateCartActionPerformed
 
     private void delCartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_delCartActionPerformed
@@ -701,21 +859,17 @@ public class UI_BanHang extends javax.swing.JPanel {
             int cartQuantity = Integer.parseInt(cartTable.getValueAt(row, 2).toString());
             int productQuantity = Integer.parseInt(productTable.getValueAt(productRow, 3).toString());
             int newQuantity = productQuantity + cartQuantity ;
-            if(dao.updateQuantity(orderID, newQuantity)){
-                    cartDF.removeRow(row);
-                    productTable.setValueAt(newQuantity, productRow, 3);
-            }else{
-                JOptionPane.showConfirmDialog(this,"Xóa không thành công ");
-            }
+            cartDF.removeRow(row);
+            productTable.setValueAt(newQuantity, productRow, 3);
             updateTotal();
         }else{
              JOptionPane.showMessageDialog(this, "Vui lòng chọn sản phẩm cần xóa.");
         }
     }//GEN-LAST:event_delCartActionPerformed
 
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+    private void customID_txtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_customID_txtActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1ActionPerformed
+    }//GEN-LAST:event_customID_txtActionPerformed
 
     private void addCartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addCartActionPerformed
 
@@ -732,13 +886,13 @@ public class UI_BanHang extends javax.swing.JPanel {
                  if(Integer.parseInt(productTable.getValueAt(row,3).toString()) >= quantity){
                       productTable.setValueAt(newQuantity, row, 3);
                  }
-            }
+            }else{
+                 JOptionPane.showConfirmDialog(cartTable, "Thêm không thành công ");
+             }
               updateTotal(); 
          }else {
             JOptionPane.showMessageDialog(this, "Vui lòng chọn sản phẩm để thêm vào giỏ.");
         }
-        
-        
     }//GEN-LAST:event_addCartActionPerformed
 
     private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
@@ -808,6 +962,7 @@ public class UI_BanHang extends javax.swing.JPanel {
     private javax.swing.JButton btnThanhToan;
     private javax.swing.JButton btnXuat;
     private javax.swing.JTable cartTable;
+    private javax.swing.JTextField customID_txt;
     private javax.swing.JButton delCart;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -827,6 +982,7 @@ public class UI_BanHang extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane2;
+
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JLabel maHDtxt;

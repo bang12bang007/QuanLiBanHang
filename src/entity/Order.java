@@ -6,25 +6,30 @@ import java.time.LocalDate;
 import java.util.List;
 
 public class Order {
-    private String id;
-    private Customer customer; // Foreign key relationship
-    private Date orderDate;
-    private double totalAmount;
-    private String status;
-    private LocalDate createdAt;
-    private List<OrderDetail> orderDetails;
 
-    // Constructors, Getters, and Setters
-    public Order() {}
+	private String id;
+	private Customer customer;
+	private LocalDate orderDate;
+	private double totalAmount;
+	private String status;
+	private List<OrderDetail> orderDetails;
 
-    public Order(String id, Customer customer, Date orderDate, double totalAmount, String status, LocalDate createdAt) {
-        this.id = id;
-        this.customer = customer;
-        this.orderDate = orderDate;
-        this.totalAmount = totalAmount;
-        this.status = status;
-        this.createdAt = createdAt;
-    }
+	// Constructors, Getters, and Setters
+	public Order() {
+	}
+
+	public Order(String ma) {
+		this.id = ma;
+	}
+
+	public Order(String id, Customer customer, LocalDate orderDate, double totalAmount, String status) {
+		this.id = id;
+		this.customer = customer;
+		this.orderDate = LocalDate.now();
+		this.totalAmount = totalAmount;
+		this.status = status;
+
+	}
 
 	public String getId() {
 		return id;
@@ -42,11 +47,11 @@ public class Order {
 		this.customer = customer;
 	}
 
-	public Date getOrderDate() {
+	public LocalDate getOrderDate() {
 		return orderDate;
 	}
 
-	public void setOrderDate(Date orderDate) {
+	public void setOrderDate(LocalDate orderDate) {
 		this.orderDate = orderDate;
 	}
 
@@ -66,14 +71,6 @@ public class Order {
 		this.status = status;
 	}
 
-	public LocalDate getCreatedAt() {
-		return createdAt;
-	}
-
-	public void setCreatedAt(LocalDate createdAt) {
-		this.createdAt = createdAt;
-	}
-
 	public List<OrderDetail> getOrderDetails() {
 		return orderDetails;
 	}
@@ -82,7 +79,7 @@ public class Order {
 		this.orderDetails = orderDetails;
 	}
 
-    // Getters and Setters
-    
-    // toString method
+	// Getters and Setters
+
+	// toString method
 }
